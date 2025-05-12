@@ -1,35 +1,20 @@
 package router
 
-import "github.com/gin-gonic/gin"
+import (
+	"power-track/handler"
+
+	"github.com/gin-gonic/gin"
+)
 
 func InitializeRoutes(router *gin.Engine) {
 	// Initialize the router
 	v1 := router.Group("/api/v1")
 	{
 		// Define your routes here
-		v1.GET("/lastData", func(ctx *gin.Context) {
-			ctx.JSON(200, gin.H{
-				"message": "Get Last Data",
-			})
-		})
-
-		v1.GET("/historicalData", func(ctx *gin.Context) {
-			ctx.JSON(200, gin.H{
-				"message": "Get Historical Data",
-			})
-		})
-
-		v1.GET("/listInversor", func(ctx *gin.Context) {
-			ctx.JSON(200, gin.H{
-				"message": "Get Inversor List",
-			})
-		})
-
-		v1.GET("/inversorData", func(ctx *gin.Context) {
-			ctx.JSON(200, gin.H{
-				"message": "Get Inversor Data",
-			})
-		})
+		v1.GET("/lastData", handler.GetLastDataHandler)
+		v1.GET("/historicalData", handler.GetHistoricalDataHandler)
+		v1.GET("/listInversor", handler.GetListInversorHandler)
+		v1.GET("/inversorData", handler.GetInversorDataHandler)
 	}
 	// r := gin.Default()
 	// r.Use(middleware.Cors())
