@@ -4,15 +4,32 @@ import "github.com/gin-gonic/gin"
 
 func InitializeRoutes(router *gin.Engine) {
 	// Initialize the router
-	v1 := router.Group("/api/v1");
+	v1 := router.Group("/api/v1")
 	{
 		// Define your routes here
-		 v1.GET("/hello", func(ctx *gin.Context) {
+		v1.GET("/lastData", func(ctx *gin.Context) {
 			ctx.JSON(200, gin.H{
-				"message": "Hello, World! v1",
+				"message": "Get Last Data",
 			})
-			
-		 })
+		})
+
+		v1.GET("/historicalData", func(ctx *gin.Context) {
+			ctx.JSON(200, gin.H{
+				"message": "Get Historical Data",
+			})
+		})
+
+		v1.GET("/listInversor", func(ctx *gin.Context) {
+			ctx.JSON(200, gin.H{
+				"message": "Get Inversor List",
+			})
+		})
+
+		v1.GET("/inversorData", func(ctx *gin.Context) {
+			ctx.JSON(200, gin.H{
+				"message": "Get Inversor Data",
+			})
+		})
 	}
 	// r := gin.Default()
 	// r.Use(middleware.Cors())
