@@ -2,33 +2,43 @@ package router
 
 import (
 	"power-track/handler"
+	"power-track/middleware"
+	"power-track/service"
 
 	"github.com/gin-gonic/gin"
 )
 
 func InitializeRoutes(router *gin.Engine) {
-	// Initialize the router
+	// Inicializa middlewares
+	router.Use(middleware.Logger())
+	router.Use(middleware.Recovery())
+	router.Use(middleware.Cors())
+	
+	// Inicializa serviços e handlers
+	inverterService := service.NewInverterService()
+	inverterHandler := handler.NewInverterHandler(inverterService)
+
+	stringpvService := service.NewStringpvService()
+	stringpvHandler := handler.NewStringpvHandler(stringpvService)
+
+	// Grupo de rotas v1
 	v1 := router.Group("/api/v1")
 	{
-		// Define your routes here
-		v1.GET("/lastData", handler.GetLastDataHandler)
-		v1.GET("/historicalData", handler.GetHistoricalDataHandler)
-		v1.GET("/listInversor", handler.GetListInversorHandler)
-		v1.GET("/inversorData", handler.GetInversorDataHandler)
-	}
-	// r := gin.Default()
-	// r.Use(middleware.Cors())
-	// r.Use(middleware.Logger())
-	// r.Use(middleware.Recovery())
-	// r.Use(middleware.RequestId())
-	// r.Use(middleware.Secure())
-	// r.Use(middleware.SecureHeaders())
-	// r.Use(middleware.SecureCookie())
-	// r.Use(middleware.SecureSession())
-	// r.Use(middleware.SecureCSRF())
-	// r.Use(middleware.SecureXSS())
-	// r.Use(middleware.SecureContentType())
-	// r.Use(middleware.SecureContentSecurityPolicy())
+		// Rotas do inversor
+		inverter := v1.Group("/inverters")
+		{
+			inverter.GET("/latest", inverterHandler.GetLastData)
+			inverter.GET("/historical", inverterHandler.GetHistoricalData)
+			inverter.GET("", inverterHandler.GetList)
+			inverter.GET("/:id", inverterHandler.GetData)
+		}
 
-	// Define your routes here
+		// Rotas das strings fotovoltaicas
+		stringpv := v1.Group("/strings")
+		{
+			stringpv.GET("/latest/:inverterId", stringpvHandler.GetLatest)
+			stringpv.GET("/:inverterId", stringpvHandler.GetByInverter)
+			stringpv.POST("", stringpvHandler.Create)
+		}
+	}
 }
