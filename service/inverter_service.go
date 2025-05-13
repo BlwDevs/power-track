@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"strconv"
 	"power-track/models"
 	"power-track/repository"
 )
@@ -27,9 +28,14 @@ func (s *InverterService) GetHistoricalData(startDate, endDate string, inverterI
 		return nil, errors.New("parâmetros de data e ID do inversor são obrigatórios")
 	}
 
-	// Aqui você pode adicionar lógica adicional para filtrar por data
-	// Por enquanto, vamos retornar todos os dados do inversor
-	inverter, err := s.repo.GetByID(uint(inverterID))
+	// Convert string ID to uint
+	id, err := strconv.ParseUint(inverterID, 10, 64)
+	if err != nil {
+		return nil, errors.New("ID do inversor inválido")
+	}
+
+	// Use the converted ID
+	inverter, err := s.repo.GetByID(uint(id))
 	if err != nil {
 		return nil, err
 	}

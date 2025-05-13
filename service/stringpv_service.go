@@ -17,9 +17,9 @@ func NewStringpvService(repo *repository.StringpvRepository) *StringpvService {
 }
 
 // CreateStringData adds new photovoltaic string data
-func (s *StringpvService) CreateStringData(stringpv *models.Stringpv) error {
+func (s *StringpvService) CreateStringData(stringpv *models.Stringpv) (*models.Stringpv, error) {
 	if stringpv.InverterID == 0 {
-		return errors.New("inverter ID is required")
+		return nil, errors.New("inverter ID is required")
 	}
 
 	return s.repo.Create(stringpv)

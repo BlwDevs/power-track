@@ -87,7 +87,7 @@ func (h *StringpvHandler) Create(ctx *gin.Context) {
 		return
 	}
 
-	err := h.stringpvService.CreateStringData(&stringpv)
+	createdStringpv, err := h.stringpvService.CreateStringData(&stringpv)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"erro": err.Error(),
@@ -95,5 +95,6 @@ func (h *StringpvHandler) Create(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, stringpv)
+	ctx.JSON(http.StatusCreated, createdStringpv)
 }
+
