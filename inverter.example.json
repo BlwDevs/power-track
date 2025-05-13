@@ -1,0 +1,13 @@
+{
+  "serialNumber": "INV-2024-001",
+  "model": "SUN2000-60KTL",
+  "manufacturer": "Huawei",
+  "nominalPower": 60.0,
+  "status": "active",
+  "installationDate": "2024-01-15T00:00:00Z",
+  "location": {
+    "latitude": -23.5505,
+    "longitude": -46.6333
+  },
+  "firmware": "V300R001C00B0100"
+}

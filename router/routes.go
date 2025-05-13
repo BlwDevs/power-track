@@ -5,7 +5,7 @@ import (
 	"power-track/middleware"
 	"power-track/repository"
 	"power-track/service"
-	
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -33,10 +33,12 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 		// Rotas do inversor
 		inverter := v1.Group("/inverters")
 		{
+			inverter.POST("", inverterHandler.Create)
 			inverter.GET("/latest", inverterHandler.GetLastData)
 			inverter.GET("/historical", inverterHandler.GetHistoricalData)
 			inverter.GET("", inverterHandler.GetList)
 			inverter.GET("/:id", inverterHandler.GetData)
+			inverter.DELETE("/:id", inverterHandler.DeleteById)  // Nova rota para deletar
 		}
 
 		// Rotas das strings fotovoltaicas

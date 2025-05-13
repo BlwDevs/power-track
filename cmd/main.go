@@ -1,17 +1,15 @@
 package main
 
 import (
+	"power-track/database"
 	"power-track/router"
+
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 func main() {
 	// Initialize DB connection
-	db, err := initDB() // You need to implement this function
-	if err != nil {
-		panic("Failed to connect to database")
-	}
+	db := database.Connect()
 
 	// Initialize Gin router
 	r := gin.Default()
@@ -21,15 +19,4 @@ func main() {
 
 	// Start server
 	r.Run(":8080")
-}
-
-// initDB initializes and returns a database connection
-func initDB() (*gorm.DB, error) {
-	// Implement your database connection logic here
-	// Example:
-	// dsn := "host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai"
-	// return gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	
-	// TODO: Implement your actual database connection
-	return nil, nil
 }

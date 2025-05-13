@@ -2,9 +2,9 @@ package service
 
 import (
 	"errors"
-	"strconv"
 	"power-track/models"
 	"power-track/repository"
+	"strconv"
 )
 
 type InverterService struct {
@@ -28,13 +28,13 @@ func (s *InverterService) GetHistoricalData(startDate, endDate string, inverterI
 		return nil, errors.New("parâmetros de data e ID do inversor são obrigatórios")
 	}
 
-	// Convert string ID to uint
+	// Converte o ID de string para uint
 	id, err := strconv.ParseUint(inverterID, 10, 64)
 	if err != nil {
 		return nil, errors.New("ID do inversor inválido")
 	}
 
-	// Use the converted ID
+	// Usa o ID convertido para uint
 	inverter, err := s.repo.GetByID(uint(id))
 	if err != nil {
 		return nil, err
@@ -59,6 +59,7 @@ func (s *InverterService) GetData(id uint) (*models.Inverter, error) {
 
 // CreateInverter cria um novo inversor
 func (s *InverterService) CreateInverter(inverter *models.Inverter) (*models.Inverter, error) {
+	println("inverter:", inverter)
 	if inverter.SerialNumber == "" {
 		return nil, errors.New("número de série é obrigatório")
 	}

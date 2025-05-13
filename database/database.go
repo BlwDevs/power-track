@@ -10,9 +10,7 @@ import (
 	"power-track/models"
 )
 
-var DB *gorm.DB
-
-func Connect() {
+func Connect() *gorm.DB {
 	dsn := "host=localhost user=postgres password=postgres dbname=goapi port=5432 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
@@ -20,7 +18,6 @@ func Connect() {
 		log.Fatal("Erro ao conectar no banco:", err)
 	}
 
-	DB = db
 	fmt.Println("Conectado ao banco com sucesso!")
 
 	// AutoMigrate models
@@ -28,4 +25,6 @@ func Connect() {
 	if err != nil {
 		log.Fatal("Erro ao fazer AutoMigrate:", err)
 	}
+
+	return db
 }

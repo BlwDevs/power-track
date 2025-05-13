@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
+	"power-track/models"
 	"power-track/service"
 	"strconv"
 
@@ -16,6 +18,30 @@ func NewInverterHandler(service *service.InverterService) *InverterHandler {
 	return &InverterHandler{
 		inverterService: service,
 	}
+}
+
+// Create cria um novo inversor
+func (h *InverterHandler) Create(ctx *gin.Context) {
+	var inverter models.Inverter
+	if err := ctx.ShouldBindJSON(&inverter); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"erro": "Dados inválidos para criar inversor: " + err.Error(),
+		})
+		return
+	}
+
+	// Debug para ver o que está chegando
+	fmt.Printf("Dados recebidos: %+v\n", inverter)
+
+	createdInverter, err := h.inverterService.CreateInverter(&inverter)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"erro": err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, createdInverter)
 }
 
 // GetLastData retorna os dados mais recentes do inversor
@@ -88,4 +114,35 @@ func (h *InverterHandler) GetData(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, data)
+}
+
+// DeleteById remove um inversor pelo ID
+func (h *InverterHandler) DeleteById(ctx *gin.Context) {
+	id := ctx.Param("id")
+	if id == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"erro": "ID do inversor é obrigatório",
+		})
+		return
+	}
+
+	inverterID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"erro": "ID do inversor inválido",
+		})
+		return
+	}
+
+	err = h.inverterService.DeleteInverter(uint(inverterID))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"erro": err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"mensagem": "Inversor removido com sucesso",
+	})
 }
