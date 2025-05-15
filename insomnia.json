@@ -1,0 +1,441 @@
+{
+    "_type": "export",
+    "__export_format": 4,
+    "__export_date": "2023-07-20T12:00:00.000Z",
+    "__export_source": "insomnia.desktop.app:v2023.1.0",
+    "resources": [
+      {
+        "_id": "req_root",
+        "parentId": "wrk_power_track",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}",
+        "name": "API Root",
+        "description": "",
+        "method": "GET",
+        "body": {},
+        "parameters": [],
+        "headers": [],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "wrk_power_track",
+        "parentId": null,
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "name": "Power Track API",
+        "description": "API para o sistema Power Track",
+        "scope": "collection",
+        "_type": "workspace"
+      },
+      {
+        "_id": "fld_users",
+        "parentId": "wrk_power_track",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "name": "Usuários",
+        "description": "Endpoints para gerenciamento de usuários",
+        "_type": "request_group"
+      },
+      {
+        "_id": "req_users_create",
+        "parentId": "fld_users",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/users",
+        "name": "Criar Usuário",
+        "description": "Cria um novo usuário no sistema",
+        "method": "POST",
+        "body": {
+          "mimeType": "application/json",
+          "text": "{\n  \"cpf\": \"123.456.789-00\",\n  \"name\": \"João Silva\",\n  \"email\": \"joao.silva@exemplo.com\",\n  \"address\": \"Rua das Flores, 123 - São Paulo/SP\",\n  \"plan\": 1,\n  \"phone\": \"(11) 98765-4321\"\n}"
+        },
+        "parameters": [],
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_users_list",
+        "parentId": "fld_users",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/users",
+        "name": "Listar Usuários",
+        "description": "Retorna todos os usuários cadastrados",
+        "method": "GET",
+        "body": {},
+        "parameters": [],
+        "headers": [],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_users_get",
+        "parentId": "fld_users",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/users/1",
+        "name": "Obter Usuário",
+        "description": "Retorna os dados de um usuário específico",
+        "method": "GET",
+        "body": {},
+        "parameters": [],
+        "headers": [],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_users_update",
+        "parentId": "fld_users",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/users/1",
+        "name": "Atualizar Usuário",
+        "description": "Atualiza os dados de um usuário existente",
+        "method": "PUT",
+        "body": {
+          "mimeType": "application/json",
+          "text": "{\n  \"cpf\": \"123.456.789-00\",\n  \"name\": \"João Silva Atualizado\",\n  \"email\": \"joao.silva@exemplo.com\",\n  \"address\": \"Avenida Paulista, 1000 - São Paulo/SP\",\n  \"plan\": 2,\n  \"phone\": \"(11) 99876-5432\"\n}"
+        },
+        "parameters": [],
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_users_delete",
+        "parentId": "fld_users",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/users/1",
+        "name": "Excluir Usuário",
+        "description": "Remove um usuário do sistema",
+        "method": "DELETE",
+        "body": {},
+        "parameters": [],
+        "headers": [],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "fld_parser_clients",
+        "parentId": "wrk_power_track",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "name": "Clientes Parser",
+        "description": "Endpoints para gerenciamento de clientes parser",
+        "_type": "request_group"
+      },
+      {
+        "_id": "req_parser_clients_create",
+        "parentId": "fld_parser_clients",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/parser-clients",
+        "name": "Criar Cliente Parser",
+        "description": "Cria um novo cliente parser no sistema",
+        "method": "POST",
+        "body": {
+          "mimeType": "application/json",
+          "text": "{\n  \"parser_key\": \"abc123xyz456\",\n  \"user_id\": 1,\n  \"active\": true,\n  \"name\": \"Cliente Parser 1\"\n}"
+        },
+        "parameters": [],
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_parser_clients_list",
+        "parentId": "fld_parser_clients",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/parser-clients",
+        "name": "Listar Clientes Parser",
+        "description": "Retorna todos os clientes parser cadastrados",
+        "method": "GET",
+        "body": {},
+        "parameters": [],
+        "headers": [],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_parser_clients_get",
+        "parentId": "fld_parser_clients",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/parser-clients/1",
+        "name": "Obter Cliente Parser",
+        "description": "Retorna os dados de um cliente parser específico",
+        "method": "GET",
+        "body": {},
+        "parameters": [],
+        "headers": [],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_parser_clients_update",
+        "parentId": "fld_parser_clients",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/parser-clients/1",
+        "name": "Atualizar Cliente Parser",
+        "description": "Atualiza os dados de um cliente parser existente",
+        "method": "PUT",
+        "body": {
+          "mimeType": "application/json",
+          "text": "{\n  \"parser_key\": \"abc123xyz456\",\n  \"user_id\": 1,\n  \"active\": false,\n  \"name\": \"Cliente Parser Atualizado\"\n}"
+        },
+        "parameters": [],
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_parser_clients_delete",
+        "parentId": "fld_parser_clients",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/parser-clients/1",
+        "name": "Excluir Cliente Parser",
+        "description": "Remove um cliente parser do sistema",
+        "method": "DELETE",
+        "body": {},
+        "parameters": [],
+        "headers": [],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_parser_clients_by_user",
+        "parentId": "fld_parser_clients",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/parser-clients/user/1",
+        "name": "Listar Clientes Parser por Usuário",
+        "description": "Retorna todos os clientes parser de um determinado usuário",
+        "method": "GET",
+        "body": {},
+        "parameters": [],
+        "headers": [],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "fld_inverters",
+        "parentId": "wrk_power_track",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "name": "Inversores",
+        "description": "Endpoints para gerenciamento de inversores",
+        "_type": "request_group"
+      },
+      {
+        "_id": "req_inverters_create",
+        "parentId": "fld_inverters",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/inverters",
+        "name": "Criar Inversor",
+        "description": "Cria um novo inversor no sistema",
+        "method": "POST",
+        "body": {
+          "mimeType": "application/json",
+          "text": "{\n  \"serial_number\": \"INV123456\",\n  \"status\": \"online\",\n  \"power\": 5000.00,\n  \"total_energy\": 12500.75\n}"
+        },
+        "parameters": [],
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_inverters_list",
+        "parentId": "fld_inverters",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/inverters",
+        "name": "Listar Inversores",
+        "description": "Retorna todos os inversores cadastrados",
+        "method": "GET",
+        "body": {},
+        "parameters": [],
+        "headers": [],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_inverters_get",
+        "parentId": "fld_inverters",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/inverters/1",
+        "name": "Obter Inversor",
+        "description": "Retorna os dados de um inversor específico",
+        "method": "GET",
+        "body": {},
+        "parameters": [],
+        "headers": [],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_inverters_delete",
+        "parentId": "fld_inverters",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/inverters/1",
+        "name": "Excluir Inversor",
+        "description": "Remove um inversor do sistema",
+        "method": "DELETE",
+        "body": {},
+        "parameters": [],
+        "headers": [],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_inverters_latest",
+        "parentId": "fld_inverters",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/inverters/latest",
+        "name": "Dados Mais Recentes",
+        "description": "Retorna os dados mais recentes dos inversores",
+        "method": "GET",
+        "body": {},
+        "parameters": [],
+        "headers": [],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_inverters_historical",
+        "parentId": "fld_inverters",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/inverters/historical",
+        "name": "Dados Históricos",
+        "description": "Retorna dados históricos dos inversores",
+        "method": "GET",
+        "body": {},
+        "parameters": [
+          {
+            "name": "dataInicio",
+            "value": "2023-01-01"
+          },
+          {
+            "name": "dataFim",
+            "value": "2023-12-31"
+          },
+          {
+            "name": "inversorId",
+            "value": "1"
+          }
+        ],
+        "headers": [],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "fld_strings",
+        "parentId": "wrk_power_track",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "name": "Strings Fotovoltaicas",
+        "description": "Endpoints para gerenciamento de strings fotovoltaicas",
+        "_type": "request_group"
+      },
+      {
+        "_id": "req_strings_create",
+        "parentId": "fld_strings",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/strings",
+        "name": "Criar String",
+        "description": "Cria uma nova string fotovoltaica no sistema",
+        "method": "POST",
+        "body": {
+          "mimeType": "application/json",
+          "text": "{\n  \"timestamp\": \"2023-07-20T10:30:00Z\",\n  \"index\": 1,\n  \"string_number\": 1,\n  \"ppv\": 250.50,\n  \"ipv\": 8.75,\n  \"vpv\": 28.50,\n  \"inverter_id\": 1\n}"
+        },
+        "parameters": [],
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_strings_by_inverter",
+        "parentId": "fld_strings",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/strings/1",
+        "name": "Listar Strings por Inversor",
+        "description": "Retorna todas as strings de um determinado inversor",
+        "method": "GET",
+        "body": {},
+        "parameters": [],
+        "headers": [],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "req_strings_latest",
+        "parentId": "fld_strings",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "url": "{{ _.base_url }}/api/v1/strings/latest/1",
+        "name": "Dados Mais Recentes por Inversor",
+        "description": "Retorna os dados mais recentes das strings de um determinado inversor",
+        "method": "GET",
+        "body": {},
+        "parameters": [],
+        "headers": [],
+        "authentication": {},
+        "_type": "request"
+      },
+      {
+        "_id": "env_base",
+        "parentId": "wrk_power_track",
+        "modified": 1689859200000,
+        "created": 1689859200000,
+        "name": "Base Environment",
+        "data": {
+          "base_url": "http://localhost:8080"
+        },
+        "_type": "environment"
+      }
+    ]
+  }
