@@ -19,6 +19,8 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 	// Inicializa repositories
 	inverterRepo := repository.NewInverterRepository(db)
 	stringpvRepo := repository.NewStringpvRepository(db)
+	userRepo := repository.NewUserRepository(db)
+	parserClientRepo := repository.NewParserClientRepository(db)
 	
 	// Inicializa serviços e handlers
 	inverterService := service.NewInverterService(inverterRepo)
@@ -26,6 +28,12 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 
 	stringpvService := service.NewStringpvService(stringpvRepo)
 	stringpvHandler := handler.NewStringpvHandler(stringpvService)
+
+	userService := service.NewUserService(userRepo)
+	userHandler := handler.NewUserHandler(userService)
+
+	parserClientService := service.NewParserClientService(parserClientRepo)
+	parserClientHandler := handler.NewParserClientHandler(parserClientService)
 
 	// Grupo de rotas v1
 	v1 := router.Group("/api/v1")
@@ -48,6 +56,27 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			stringpv.GET("/:inverterId", stringpvHandler.GetByInverter)
 			stringpv.POST("", stringpvHandler.Create)
 			// stringpv.POST("/csv-parser", stringpvHandler.CreateFromCSV)
+		}
+
+		// Rotas de usuários
+		users := v1.Group("/users")
+		{
+			users.POST("", userHandler.Create)
+			users.GET("", userHandler.GetAll)
+			users.GET("/:id", userHandler.GetByID)
+			users.PUT("/:id", userHandler.Update)
+			users.DELETE("/:id", userHandler.Delete)
+		}
+
+		// Rotas de clientes parser
+		parserClients := v1.Group("/parser-clients")
+		{
+			parserClients.POST("", parserClientHandler.Create)
+			parserClients.GET("", parserClientHandler.GetAll)
+			parserClients.GET("/:id", parserClientHandler.GetByID)
+			parserClients.PUT("/:id", parserClientHandler.Update)
+			parserClients.DELETE("/:id", parserClientHandler.Delete)
+			parserClients.GET("/user/:userId", parserClientHandler.GetByUserID)
 		}
 	}
 }
