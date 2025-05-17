@@ -15,13 +15,14 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 	router.Use(middleware.Logger())
 	router.Use(middleware.Recovery())
 	router.Use(middleware.Cors())
-	
+
 	// Inicializa repositories
 	inverterRepo := repository.NewInverterRepository(db)
 	stringpvRepo := repository.NewStringpvRepository(db)
 	userRepo := repository.NewUserRepository(db)
-	parserClientRepo := repository.NewParserClientRepository(db)
-	
+	UserParserRepo := repository.NewUserParserRepository(db)
+	parserWorkerRepo := repository.NewParserWorkerRepository(db)
+
 	// Inicializa serviços e handlers
 	inverterService := service.NewInverterService(inverterRepo)
 	inverterHandler := handler.NewInverterHandler(inverterService)
@@ -32,8 +33,11 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 	userService := service.NewUserService(userRepo)
 	userHandler := handler.NewUserHandler(userService)
 
-	parserClientService := service.NewParserClientService(parserClientRepo)
-	parserClientHandler := handler.NewParserClientHandler(parserClientService)
+	UserParserService := service.NewUserParserService(UserParserRepo)
+	UserParserHandler := handler.NewUserParserHandler(UserParserService)
+
+	parserWorkerService := service.NewParserWorkerService(parserWorkerRepo)
+	parserWorkerHandler := handler.NewParserWorkerHandler(parserWorkerService)
 
 	// Grupo de rotas v1
 	v1 := router.Group("/api/v1")
@@ -42,17 +46,28 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 		inverter := v1.Group("/inverters")
 		{
 			inverter.POST("", inverterHandler.Create)
-			inverter.GET("/latest", inverterHandler.GetLastData)
-			inverter.GET("/historical", inverterHandler.GetHistoricalData)
 			inverter.GET("", inverterHandler.GetList)
 			inverter.GET("/:id", inverterHandler.GetData)
-			inverter.DELETE("/:id", inverterHandler.DeleteById)  // Nova rota para deletar
+			inverter.PUT("/:id", inverterHandler.Update)
+			inverter.DELETE("/:id", inverterHandler.DeleteById) // Nova rota para deletar
+		}
+
+		// Rotas do ParserWorker
+		parserWorker := v1.Group("/parser-worker")
+		{
+			parserWorker.POST("", parserWorkerHandler.Create)
+			parserWorker.GET("", parserWorkerHandler.GetAll)
+			parserWorker.GET("/:id", parserWorkerHandler.GetByID)
+			parserWorker.PUT("/:id", parserWorkerHandler.Update)
+			parserWorker.DELETE("/:id", parserWorkerHandler.Delete)
+			parserWorker.GET("/:manufacturer", parserWorkerHandler.GetByManufacturer)
 		}
 
 		// Rotas das strings fotovoltaicas
 		stringpv := v1.Group("/strings")
 		{
 			stringpv.GET("/latest/:inverterId", stringpvHandler.GetLatest)
+			stringpv.GET("/historical/:inverterId/:startTime/:endTime", stringpvHandler.GetHistorical)
 			stringpv.GET("/:inverterId", stringpvHandler.GetByInverter)
 			stringpv.POST("", stringpvHandler.Create)
 			// stringpv.POST("/csv-parser", stringpvHandler.CreateFromCSV)
@@ -69,14 +84,14 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 		}
 
 		// Rotas de clientes parser
-		parserClients := v1.Group("/parser-clients")
+		UserParsers := v1.Group("/user-parser")
 		{
-			parserClients.POST("", parserClientHandler.Create)
-			parserClients.GET("", parserClientHandler.GetAll)
-			parserClients.GET("/:id", parserClientHandler.GetByID)
-			parserClients.PUT("/:id", parserClientHandler.Update)
-			parserClients.DELETE("/:id", parserClientHandler.Delete)
-			parserClients.GET("/user/:userId", parserClientHandler.GetByUserID)
+			UserParsers.POST("", UserParserHandler.Create)
+			UserParsers.GET("", UserParserHandler.GetAll)
+			UserParsers.GET("/:id", UserParserHandler.GetByID)
+			UserParsers.PUT("/:id", UserParserHandler.Update)
+			UserParsers.DELETE("/:id", UserParserHandler.Delete)
+			UserParsers.GET("/user/:userId", UserParserHandler.GetByUserID)
 		}
 	}
 }
