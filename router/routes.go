@@ -42,8 +42,8 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 		inverter := v1.Group("/inverters")
 		{
 			inverter.POST("", inverterHandler.Create)
-			inverter.GET("/latest", inverterHandler.GetLastData)
-			inverter.GET("/historical", inverterHandler.GetHistoricalData)
+			//inverter.GET("/latest", inverterHandler.GetLastData)
+			//inverter.GET("/historical", inverterHandler.GetHistoricalData)
 			inverter.GET("", inverterHandler.GetList)
 			inverter.GET("/:id", inverterHandler.GetData)
 			inverter.DELETE("/:id", inverterHandler.DeleteById)  // Nova rota para deletar
