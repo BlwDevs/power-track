@@ -2,6 +2,7 @@ package repository
 
 import (
 	"power-track/models"
+
 	"gorm.io/gorm"
 )
 
@@ -59,11 +60,4 @@ func (r *InverterRepository) GetByStatus(status models.Status) ([]models.Inverte
 	var inverters []models.Inverter
 	result := r.db.Where("status = ?", status).Find(&inverters)
 	return inverters, result.Error
-}
-
-// GetLastData retorna o inversor mais recentemente atualizado
-func (r *InverterRepository) GetLastData() (*models.Inverter, error) {
-	var inverter models.Inverter
-	result := r.db.Order("updated_at desc").First(&inverter)
-	return &inverter, result.Error
 }

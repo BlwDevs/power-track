@@ -4,7 +4,6 @@ import (
 	"errors"
 	"power-track/models"
 	"power-track/repository"
-	"strconv"
 )
 
 type InverterService struct {
@@ -15,32 +14,6 @@ func NewInverterService(repo *repository.InverterRepository) *InverterService {
 	return &InverterService{
 		repo: repo,
 	}
-}
-
-// GetLastData retorna os dados mais recentes do inversor
-func (s *InverterService) GetLastData() (*models.Inverter, error) {
-	return s.repo.GetLastData()
-}
-
-// GetHistoricalData retorna dados históricos do inversor
-func (s *InverterService) GetHistoricalData(startDate, endDate string, inverterID string) ([]models.Inverter, error) {
-	if startDate == "" || endDate == "" || inverterID == "" {
-		return nil, errors.New("parâmetros de data e ID do inversor são obrigatórios")
-	}
-
-	// Converte o ID de string para uint
-	id, err := strconv.ParseUint(inverterID, 10, 64)
-	if err != nil {
-		return nil, errors.New("ID do inversor inválido")
-	}
-
-	// Usa o ID convertido para uint
-	inverter, err := s.repo.GetByID(uint(id))
-	if err != nil {
-		return nil, err
-	}
-
-	return []models.Inverter{*inverter}, nil
 }
 
 // GetList retorna a lista de todos os inversores

@@ -21,7 +21,7 @@ func Connect() *gorm.DB {
 	fmt.Println("Conectado ao banco com sucesso!")
 
 	// AutoMigrate models
-	err = db.AutoMigrate(&models.Inverter{}, &models.Stringpv{}, &models.User{}, &models.ParserClient{})
+	err = db.AutoMigrate(&models.Inverter{}, &models.Stringpv{}, &models.User{}, &models.UserParser{}, &models.ParserWorker{})
 	if err != nil {
 		log.Fatal("Erro ao fazer AutoMigrate:", err)
 	}

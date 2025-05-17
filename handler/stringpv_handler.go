@@ -48,6 +48,40 @@ func (h *StringpvHandler) GetLatest(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, data)
 }
 
+// GetHistorical retorna os dados históricos de uma string fotovoltaica
+func (h *StringpvHandler) GetHistorical(ctx *gin.Context) {
+	inverterID := ctx.Param("inverterId")
+	if inverterID == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"erro": "ID do inversor é obrigatório",
+		})
+		return
+	}
+	id, err := strconv.ParseUint(inverterID, 10, 64)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"erro": "ID do inversor inválido",
+		})
+		return
+	}
+	startTime := ctx.Query("start_time")
+	endTime := ctx.Query("end_time")
+	if startTime == "" || endTime == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"erro": "start_time e end_time são obrigatórios",
+		})
+		return
+	}
+	data, err := h.stringpvService.GetHistoricalData(uint(id), startTime, endTime)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"erro": err.Error(),
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, data)
+}
+
 // GetByInverter retorna todos os dados de strings de um inversor
 func (h *StringpvHandler) GetByInverter(ctx *gin.Context) {
 	inverterID := ctx.Param("inverterId")
@@ -97,4 +131,3 @@ func (h *StringpvHandler) Create(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, createdStringpv)
 }
-

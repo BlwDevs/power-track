@@ -34,6 +34,15 @@ func (s *StringpvService) GetDataByInverter(inverterID uint) ([]models.Stringpv,
 	return s.repo.GetByInverterID(inverterID)
 }
 
+// GetHistoricalData retrieves historical data for a photovoltaic string
+func (s *StringpvService) GetHistoricalData(inverterID uint, startTime, endTime string) ([]models.Stringpv, error) {
+	if inverterID == 0 {
+		return nil, errors.New("inverter ID is required")
+	}
+
+	return s.repo.GetHistoricalDataByInverterID(inverterID, startTime, endTime)
+}
+
 // GetLatestData gets the most recent data for a photovoltaic string
 func (s *StringpvService) GetLatestData(inverterID uint) (*models.Stringpv, error) {
 	if inverterID == 0 {
