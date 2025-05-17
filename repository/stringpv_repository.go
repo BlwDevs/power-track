@@ -2,6 +2,7 @@ package repository
 
 import (
 	"power-track/models"
+
 	"gorm.io/gorm"
 )
 
@@ -48,4 +49,11 @@ func (r *StringpvRepository) GetLatestByInverterID(inverterID uint) (*models.Str
 // associados a um determinado inversor
 func (r *StringpvRepository) DeleteByInverterID(inverterID uint) error {
 	return r.db.Where("inverter_id = ?", inverterID).Delete(&models.Stringpv{}).Error
+}
+
+// GetHistoricalDataByInverterID retorna os dados históricos de strings fotovoltaicas a partir de um intervalo de tempo
+func (r *StringpvRepository) GetHistoricalDataByInverterID(inverterID uint, startTime, endTime string) ([]models.Stringpv, error) {
+	var stringpvs []models.Stringpv
+	result := r.db.Where("inverter_id = ? AND timestamp BETWEEN ? AND ?", inverterID, startTime, endTime).Find(&stringpvs)
+	return stringpvs, result.Error
 }
