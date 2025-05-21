@@ -60,14 +60,14 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			parserWorker.GET("/:id", parserWorkerHandler.GetByID)
 			parserWorker.PUT("/:id", parserWorkerHandler.Update)
 			parserWorker.DELETE("/:id", parserWorkerHandler.Delete)
-			parserWorker.GET("/:manufacturer", parserWorkerHandler.GetByManufacturer)
+			parserWorker.GET("/manufacturer/:manufacturer", parserWorkerHandler.GetByManufacturer)
 		}
 
 		// Rotas das strings fotovoltaicas
 		stringpv := v1.Group("/strings")
 		{
 			stringpv.GET("/latest/:inverterId", stringpvHandler.GetLatest)
-			stringpv.GET("/historical/:inverterId/:startTime/:endTime", stringpvHandler.GetHistorical)
+			stringpv.GET("/historical/:inverterId", stringpvHandler.GetHistorical)
 			stringpv.GET("/:inverterId", stringpvHandler.GetByInverter)
 			stringpv.POST("", stringpvHandler.Create)
 			// stringpv.POST("/csv-parser", stringpvHandler.CreateFromCSV)
