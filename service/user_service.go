@@ -1,8 +1,14 @@
 package service
 
 import (
+	"errors"
+	"os"
 	"power-track/models"
 	"power-track/repository"
+	"time"
+
+	"github.com/golang-jwt/jwt/v4"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserService struct {
@@ -53,4 +59,30 @@ func (s *UserService) GetUserByEmail(email string) (*models.User, error) {
 // GetUsersByPlan retorna todos os usuários com um determinado plano
 func (s *UserService) GetUsersByPlan(plan models.Plan) ([]models.User, error) {
 	return s.userRepo.GetByPlan(plan)
-} 
+}
+
+// Realiza a autenticação do usuário
+func (s *UserService) Authenticate(email, password string) (*models.User, error) {
+	user, err := s.userRepo.GetByEmail(email)
+	if err != nil {
+		return nil, errors.New("credenciais inválidas")
+	}
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+		return nil, errors.New("credenciais inválidas")
+	}
+
+	return user, nil
+}
+
+// GenerateToken gera um token JWT para o usuário
+func (s *UserService) GenerateToken(user *models.User) (string, error) {
+	generateToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"id":  user.ID,
+		"exp": time.Now().Add(time.Hour * 24).Unix(),
+	})
+	token, err := generateToken.SignedString(os.Getenv("JWT_SECRET"))
+	if err != nil {
+		return "", err
+	}
+	return token, nil
+}
