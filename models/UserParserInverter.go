@@ -22,4 +22,8 @@ type UserParserInverter struct {
 
 	ParserWorkerID uint         `json:"parser_worker_id" gorm:"not null"`
 	ParserWorker   ParserWorker `gorm:"foreignKey:ParserWorkerID"`
+
+	//FK Inverter
+	InverterID uint     `json:"inverter_id" gorm:"not null"`
+	Inverter   Inverter `gorm:"foreignKey:InverterID"`
 }
