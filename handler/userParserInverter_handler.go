@@ -9,19 +9,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type UserParserHandler struct {
-	UserParserService *service.UserParserService
+type UserParserInverterHandler struct {
+	UserParserInverterService *service.UserParserInverterService
 }
 
-func NewUserParserHandler(service *service.UserParserService) *UserParserHandler {
-	return &UserParserHandler{
-		UserParserService: service,
+func NewUserParserInverterHandler(service *service.UserParserInverterService) *UserParserInverterHandler {
+	return &UserParserInverterHandler{
+		UserParserInverterService: service,
 	}
 }
 
 // Create cria um novo cliente parser
-func (h *UserParserHandler) Create(ctx *gin.Context) {
-	var client models.UserParser
+func (h *UserParserInverterHandler) Create(ctx *gin.Context) {
+	var client models.UserParserInverter
 	if err := ctx.ShouldBindJSON(&client); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"erro": "Dados inválidos para criar cliente parser: " + err.Error(),
@@ -29,7 +29,7 @@ func (h *UserParserHandler) Create(ctx *gin.Context) {
 		return
 	}
 
-	createdClient, err := h.UserParserService.CreateUserParser(&client)
+	createdClient, err := h.UserParserInverterService.CreateUserParserInverter(&client)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"erro": err.Error(),
@@ -41,8 +41,8 @@ func (h *UserParserHandler) Create(ctx *gin.Context) {
 }
 
 // GetAll retorna todos os clientes parser
-func (h *UserParserHandler) GetAll(ctx *gin.Context) {
-	clients, err := h.UserParserService.GetAllUserParsers()
+func (h *UserParserInverterHandler) GetAll(ctx *gin.Context) {
+	clients, err := h.UserParserInverterService.GetAllUserParserInverters()
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"erro": "Erro ao buscar clientes parser",
@@ -54,7 +54,7 @@ func (h *UserParserHandler) GetAll(ctx *gin.Context) {
 }
 
 // GetByID retorna um cliente parser pelo ID
-func (h *UserParserHandler) GetByID(ctx *gin.Context) {
+func (h *UserParserInverterHandler) GetByID(ctx *gin.Context) {
 	id := ctx.Param("id")
 	if id == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -71,7 +71,7 @@ func (h *UserParserHandler) GetByID(ctx *gin.Context) {
 		return
 	}
 
-	client, err := h.UserParserService.GetUserParserByID(uint(clientID))
+	client, err := h.UserParserInverterService.GetUserParserInverterByID(uint(clientID))
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
 			"erro": "Cliente parser não encontrado",
@@ -83,7 +83,7 @@ func (h *UserParserHandler) GetByID(ctx *gin.Context) {
 }
 
 // Update atualiza os dados de um cliente parser
-func (h *UserParserHandler) Update(ctx *gin.Context) {
+func (h *UserParserInverterHandler) Update(ctx *gin.Context) {
 	id := ctx.Param("id")
 	if id == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -100,7 +100,7 @@ func (h *UserParserHandler) Update(ctx *gin.Context) {
 		return
 	}
 
-	var client models.UserParser
+	var client models.UserParserInverter
 	if err := ctx.ShouldBindJSON(&client); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"erro": "Dados inválidos para atualizar cliente parser: " + err.Error(),
@@ -109,7 +109,7 @@ func (h *UserParserHandler) Update(ctx *gin.Context) {
 	}
 
 	client.ID = uint(clientID)
-	err = h.UserParserService.UpdateUserParser(&client)
+	err = h.UserParserInverterService.UpdateUserParserInverter(&client)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"erro": err.Error(),
@@ -123,7 +123,7 @@ func (h *UserParserHandler) Update(ctx *gin.Context) {
 }
 
 // Delete remove um cliente parser pelo ID
-func (h *UserParserHandler) Delete(ctx *gin.Context) {
+func (h *UserParserInverterHandler) Delete(ctx *gin.Context) {
 	id := ctx.Param("id")
 	if id == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -140,7 +140,7 @@ func (h *UserParserHandler) Delete(ctx *gin.Context) {
 		return
 	}
 
-	err = h.UserParserService.DeleteUserParser(uint(clientID))
+	err = h.UserParserInverterService.DeleteUserParserInverter(uint(clientID))
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"erro": err.Error(),
@@ -154,7 +154,7 @@ func (h *UserParserHandler) Delete(ctx *gin.Context) {
 }
 
 // GetByUserID retorna todos os clientes parser de um determinado usuário
-func (h *UserParserHandler) GetByUserID(ctx *gin.Context) {
+func (h *UserParserInverterHandler) GetByUserID(ctx *gin.Context) {
 	userID := ctx.Param("userId")
 	if userID == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -171,7 +171,7 @@ func (h *UserParserHandler) GetByUserID(ctx *gin.Context) {
 		return
 	}
 
-	clients, err := h.UserParserService.GetUserParsersByUserID(uint(id))
+	clients, err := h.UserParserInverterService.GetUserParserInvertersByUserID(uint(id))
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"erro": "Erro ao buscar clientes parser do usuário",

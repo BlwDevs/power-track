@@ -20,7 +20,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 	inverterRepo := repository.NewInverterRepository(db)
 	stringpvRepo := repository.NewStringpvRepository(db)
 	userRepo := repository.NewUserRepository(db)
-	UserParserRepo := repository.NewUserParserRepository(db)
+	UserParserInverterRepo := repository.NewUserParserInverterRepository(db)
 	parserWorkerRepo := repository.NewParserWorkerRepository(db)
 
 	// Inicializa serviços e handlers
@@ -33,8 +33,8 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 	userService := service.NewUserService(userRepo)
 	userHandler := handler.NewUserHandler(userService)
 
-	UserParserService := service.NewUserParserService(UserParserRepo)
-	UserParserHandler := handler.NewUserParserHandler(UserParserService)
+	UserParserInverterService := service.NewUserParserInverterService(UserParserInverterRepo)
+	UserParserInverterHandler := handler.NewUserParserInverterHandler(UserParserInverterService)
 
 	parserWorkerService := service.NewParserWorkerService(parserWorkerRepo)
 	parserWorkerHandler := handler.NewParserWorkerHandler(parserWorkerService)
@@ -84,14 +84,14 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 		}
 
 		// Rotas de clientes parser
-		UserParsers := v1.Group("/user-parser")
+		UserParserInverters := v1.Group("/user-parser")
 		{
-			UserParsers.POST("", UserParserHandler.Create)
-			UserParsers.GET("", UserParserHandler.GetAll)
-			UserParsers.GET("/:id", UserParserHandler.GetByID)
-			UserParsers.PUT("/:id", UserParserHandler.Update)
-			UserParsers.DELETE("/:id", UserParserHandler.Delete)
-			UserParsers.GET("/user/:userId", UserParserHandler.GetByUserID)
+			UserParserInverters.POST("", UserParserInverterHandler.Create)
+			UserParserInverters.GET("", UserParserInverterHandler.GetAll)
+			UserParserInverters.GET("/:id", UserParserInverterHandler.GetByID)
+			UserParserInverters.PUT("/:id", UserParserInverterHandler.Update)
+			UserParserInverters.DELETE("/:id", UserParserInverterHandler.Delete)
+			UserParserInverters.GET("/user/:userId", UserParserInverterHandler.GetByUserID)
 		}
 	}
 }
