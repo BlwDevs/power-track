@@ -5,7 +5,7 @@ import (
 )
 
 // UserParser representa um cliente parser associado a um usuário
-type UserParser struct {
+type UserParserInverter struct {
 	gorm.Model
 
 	// Relacionamento com o usuário
