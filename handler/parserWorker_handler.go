@@ -74,7 +74,7 @@ func (h *ParserWorkerHandler) GetByID(ctx *gin.Context) {
 	worker, err := h.parserWorkerService.GetParserWorkerByID(uint(idUint))
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"erro": "Programa de processamento de dados não encontrado",
+			"erro": "ParserWorker não encontrado",
 		})
 		return
 	}
