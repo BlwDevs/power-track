@@ -181,3 +181,17 @@ func (h *UserParserInverterHandler) GetByUserID(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, clients)
 }
+
+// Disponibilização de dados para o cliente parser Growatt
+func (h *UserParserInverterHandler) GetGrowattData(ctx *gin.Context) {
+	//verificar token
+
+	growattData, err := h.UserParserInverterService.GetGrowattData()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"erro": "Erro ao buscar dados do Growatt",
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, growattData)
+}
