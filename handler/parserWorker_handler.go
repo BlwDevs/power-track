@@ -143,7 +143,7 @@ func (h *ParserWorkerHandler) GetByManufacturer(ctx *gin.Context) {
 	worker, err := h.parserWorkerService.GetParserWorkerByManufacturer(manufacturer)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"erro": "Programa de processamento de dados não encontrado",
+			"erro": "Fabricante não encontrado",
 		})
 		return
 	}

@@ -60,7 +60,8 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			parserWorker.GET("/:id", parserWorkerHandler.GetByID)
 			parserWorker.PUT("/:id", parserWorkerHandler.Update)
 			parserWorker.DELETE("/:id", parserWorkerHandler.Delete)
-			parserWorker.GET("/:manufacturer", parserWorkerHandler.GetByManufacturer)
+			parserWorker.GET("/manufacturer/:manufacturer", parserWorkerHandler.GetByManufacturer)
+
 		}
 
 		// Rotas das strings fotovoltaicas
@@ -92,6 +93,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			UserParserInverters.PUT("/:id", UserParserInverterHandler.Update)
 			UserParserInverters.DELETE("/:id", UserParserInverterHandler.Delete)
 			UserParserInverters.GET("/user/:userId", UserParserInverterHandler.GetByUserID)
+			parserWorker.GET("/growatt", UserParserInverterHandler.GetGrowattData)
 		}
 	}
 }
