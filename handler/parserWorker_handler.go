@@ -103,7 +103,7 @@ func (h *ParserWorkerHandler) Update(ctx *gin.Context) {
 }
 
 // Delete remove um programa de processamento de dados pelo ID
-func (h *ParserWorkerHandler) Delete(ctx *gin.Context) {
+func (h *ParserWorkerHandler) Deactivate(ctx *gin.Context) {
 	id := ctx.Param("id")
 	if id == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -120,9 +120,36 @@ func (h *ParserWorkerHandler) Delete(ctx *gin.Context) {
 		return
 	}
 
-	if err := h.parserWorkerService.DeleteParserWorker(uint(idUint)); err != nil {
+	if err := h.parserWorkerService.DeactivateParserWorker(uint(idUint)); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"erro": "Erro ao remover programa de processamento de dados: " + err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusNoContent, nil)
+}
+
+func (h *ParserWorkerHandler) Activate(ctx *gin.Context) {
+	id := ctx.Param("id")
+	if id == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"erro": "ID inválido",
+		})
+		return
+	}
+
+	idUint, err := strconv.ParseUint(id, 10, 32)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"erro": "ID inválido: " + err.Error(),
+		})
+		return
+	}
+
+	if err := h.parserWorkerService.ActivateParserWorker(uint(idUint)); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"erro": "Erro ao ativar parser worker: " + err.Error(),
 		})
 		return
 	}

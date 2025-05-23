@@ -59,7 +59,8 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			parserWorker.GET("", parserWorkerHandler.GetAll)
 			parserWorker.GET("/:id", parserWorkerHandler.GetByID)
 			parserWorker.PUT("/:id", parserWorkerHandler.Update)
-			parserWorker.DELETE("/:id", parserWorkerHandler.Delete)
+			parserWorker.DELETE("/:id", parserWorkerHandler.Deactivate)
+			parserWorker.POST("/activate/:id", parserWorkerHandler.Activate)
 			parserWorker.GET("/manufacturer/:manufacturer", parserWorkerHandler.GetByManufacturer)
 
 		}

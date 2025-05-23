@@ -36,8 +36,23 @@ func (s *ParserWorkerService) UpdateParserWorker(worker *models.ParserWorker) er
 }
 
 // DeleteParserWorker remove um programa de processamento de dados pelo ID
-func (s *ParserWorkerService) DeleteParserWorker(id uint) error {
-	return s.parserWorkerRepo.Delete(id)
+func (s *ParserWorkerService) DeactivateParserWorker(id uint) error {
+	worker, err := s.parserWorkerRepo.GetByID(id)
+	if err != nil {
+		return err
+	}
+	worker.Active = false
+	return s.parserWorkerRepo.Update(worker)
+}
+
+// Ativar parser worker
+func (s *ParserWorkerService) ActivateParserWorker(id uint) error {
+	worker, err := s.parserWorkerRepo.GetByID(id)
+	if err != nil {
+		return err
+	}
+	worker.Active = true
+	return s.parserWorkerRepo.Update(worker)
 }
 
 // GetParserWorkerByManufacturer busca um programa de processamento de dados pelo fabricante

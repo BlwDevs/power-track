@@ -22,6 +22,7 @@ func NewUserParserInverterHandler(service *service.UserParserInverterService) *U
 // Create cria um novo cliente parser
 func (h *UserParserInverterHandler) Create(ctx *gin.Context) {
 	var client models.UserParserInverter
+
 	if err := ctx.ShouldBindJSON(&client); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"erro": "Dados inválidos para criar cliente parser: " + err.Error(),
