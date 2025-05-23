@@ -29,6 +29,6 @@ type User struct {
 	Address  string `json:"address" gorm:"type:varchar(255)"`
 	Plan     Plan   `json:"plan" gorm:"type:int;default:0"`
 	Phone    string `json:"phone" gorm:"type:varchar(20);uniqueIndex"`
-	Role     Role   `json:"role" gorm:"type:varchar(10);default:'common'"`
+	Role     Role   `json:"role" gorm:"type:varchar(10);default:'common';check:role IN ('admin','common')"`
 	Password string `json:"password" gorm:"type:varchar(255)"`
 }
