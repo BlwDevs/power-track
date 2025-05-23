@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"encoding/json"
 	"power-track/models"
 
 	"gorm.io/gorm"
@@ -80,4 +81,44 @@ func (r *UserParserInverterRepository) GetInactive() ([]models.UserParserInverte
 	var clients []models.UserParserInverter
 	result := r.db.Where("active = ?", false).Find(&clients)
 	return clients, result.Error
+}
+
+// GetGrowattData retorna todos os clientes parser ativos do fabricante Growatt
+func (r *UserParserInverterRepository) GetGrowattData() ([]map[string]interface{}, error) {
+	var userParsers []models.UserParserInverter
+
+	err := r.db.
+		Preload("ParserWorker").
+		Preload("Inverter").
+		Joins("JOIN parser_workers ON parser_workers.id = user_parser_inverters.parser_worker_id").
+		Where("parser_workers.manufacturer = ?", "Growatt").
+		Where("user_parser_inverters.active = ?", true).
+		Find(&userParsers).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	var growattUsers []map[string]interface{}
+
+	for _, up := range userParsers {
+		// Decodifica ParserParams
+		var params map[string]interface{}
+		if err := json.Unmarshal([]byte(up.ParserParams), &params); err != nil {
+			continue // Ignora registros com JSON inválido
+		}
+
+		growattUser := map[string]interface{}{
+			"id":            up.ID,
+			"api_token":     "", // Preencher quando implementar
+			"sn":            params["sn"],
+			"device_type":   params["device_type"],
+			"inverter_id":   up.InverterID,
+			"growatt_token": params["growatt_token"],
+			"stringsNum":    params["stringsNum"],
+		}
+		growattUsers = append(growattUsers, growattUser)
+	}
+
+	return growattUsers, nil
 }
