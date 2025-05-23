@@ -1,0 +1,676 @@
+type: collection.insomnia.rest/5.0
+name: Power Track API
+meta:
+  id: wrk_501ab64e2ae1447d9c73ff9d44a35269
+  created: 1747778150364
+  modified: 1747778150364
+collection:
+  - name: Usuários
+    meta:
+      id: fld_2ab9d9560f214a28bab4b465888fb038
+      created: 1689859200000
+      modified: 1747966453230
+      sortKey: -1747917630595.25
+      description: Endpoints para gerenciamento de usuários
+    children:
+      - url: "{{ _.base_url }}/api/v1/users/1"
+        name: Obter Usuário
+        meta:
+          id: req_44075f760ce3429a8749d8597c265b9f
+          created: 1689859200000
+          modified: 1689859200000
+          isPrivate: false
+          description: Retorna os dados de um usuário específico
+          sortKey: -1747778150373
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/users/1"
+        name: Excluir Usuário
+        meta:
+          id: req_67a5e264e1c64b3aa5096308bbf80af3
+          created: 1689859200000
+          modified: 1689859200000
+          isPrivate: false
+          description: Remove um usuário do sistema
+          sortKey: -1747778150375
+        method: DELETE
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/users"
+        name: Listar Usuários
+        meta:
+          id: req_6f44d991d0f04b4fae486138d005ce5c
+          created: 1689859200000
+          modified: 1689859200000
+          isPrivate: false
+          description: Retorna todos os usuários cadastrados
+          sortKey: -1747778150371
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/users"
+        name: Criar Usuário
+        meta:
+          id: req_b5f7b4f53fb645818e04c16fdd4eb099
+          created: 1689859200000
+          modified: 1748010030173
+          isPrivate: false
+          description: Cria um novo usuário no sistema
+          sortKey: -1747778150369
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "cpf": "063.112.055-64",
+              "name": "Vithor",
+              "email": "Vithorfreitass@gmail.com",
+              "address": "Rua das Flores, 123 - São Paulo/SP",
+              "plan": 1,
+              "phone": "(11) 98565-4321",
+            	"password":"password",
+            	"role":"commons"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/users/1"
+        name: Atualizar Usuário
+        meta:
+          id: req_fb700ad549804a26953ef1563db8c243
+          created: 1689859200000
+          modified: 1748009603742
+          isPrivate: false
+          description: Atualiza os dados de um usuário existente
+          sortKey: -1747778150374
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "cpf": "123.456.789-00",
+              "name": "João Silva",
+              "email": "joao.silva@exemplo.com",
+              "address": "Rua das Flores, 123 - São Paulo/SP",
+              "plan": 1,
+              "phone": "(11) 98765-4321",
+            	"password":"password",
+            	"role":"common"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Inversores
+    meta:
+      id: fld_728dc3e864094d09a0679b3327176ebd
+      created: 1689859200000
+      modified: 1747966472009
+      sortKey: -1747824643791.75
+      description: Endpoints para gerenciamento de inversores
+    children:
+      - url: "{{ _.base_url }}/api/v1/inverters/1"
+        name: Excluir Inversor
+        meta:
+          id: req_667832b7c1634824b25ec77c7a78759d
+          created: 1689859200000
+          modified: 1689859200000
+          isPrivate: false
+          description: Remove um inversor do sistema
+          sortKey: -1747778150388
+        method: DELETE
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/inverters"
+        name: Criar Inversor
+        meta:
+          id: req_6db5e7f207014888bd5e640579094393
+          created: 1689859200000
+          modified: 1689859200000
+          isPrivate: false
+          description: Cria um novo inversor no sistema
+          sortKey: -1747778150384
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "serial_number": "INV123456",
+              "status": "online",
+              "power": 5000.00,
+              "total_energy": 12500.75
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/inverters"
+        name: Listar Inversores
+        meta:
+          id: req_d56dbcbe04464a2c88ec924d3c59bc96
+          created: 1689859200000
+          modified: 1689859200000
+          isPrivate: false
+          description: Retorna todos os inversores cadastrados
+          sortKey: -1747778150385
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/inverters/1"
+        name: Obter Inversor
+        meta:
+          id: req_d8348884467d435f9fb82132890cf8c5
+          created: 1689859200000
+          modified: 1689859200000
+          isPrivate: false
+          description: Retorna os dados de um inversor específico
+          sortKey: -1747778150387
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Strings Fotovoltaicas
+    meta:
+      id: fld_8b5a065c2a3f4ec499f171d73e69332b
+      created: 1689859200000
+      modified: 1747961323437
+      sortKey: -1747778150390
+      description: Endpoints para gerenciamento de strings fotovoltaicas
+    children:
+      - url: "{{ _.base_url }}/api/v1/strings"
+        name: Criar String
+        meta:
+          id: req_46db3b2bdefb4b41b048f8edd14f88b2
+          created: 1689859200000
+          modified: 1689859200000
+          isPrivate: false
+          description: Cria uma nova string fotovoltaica no sistema
+          sortKey: -1747778150391
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "timestamp": "2023-07-20T10:30:00Z",
+              "index": 1,
+              "string_number": 1,
+              "ppv": 250.50,
+              "ipv": 8.75,
+              "vpv": 28.50,
+              "inverter_id": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/strings/1"
+        name: Listar Strings por Inversor
+        meta:
+          id: req_471d32235ce542699b8307601980d8d7
+          created: 1689859200000
+          modified: 1689859200000
+          isPrivate: false
+          description: Retorna todas as strings de um determinado inversor
+          sortKey: -1747778150392
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/strings/historical/1"
+        name: Dados Históricos
+        meta:
+          id: req_82f84e3f13a0481f8e3661ede33b1abb
+          created: 1689859200000
+          modified: 1747961042425
+          isPrivate: false
+          description: Retorna dados históricos dos inversores
+          sortKey: -1747778150291
+        method: GET
+        parameters:
+          - name: inverterId
+            value: "1"
+            id: pair_f3aec238b41a4c1ab080d4d89a1f28d7
+            disabled: false
+          - name: start_time
+            value: 2025-01-01
+            id: pair_670c4e125ddf4aff881620ac4e722a81
+          - name: end_time
+            value: 2025-12-31
+            id: pair_06cb923601084459b3626e55f5ed91ff
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/strings/latest/1"
+        name: Dados Mais Recentes por Inversor
+        meta:
+          id: req_e04666ae7f3445b89a3b4b13c0b2bcd6
+          created: 1689859200000
+          modified: 1689859200000
+          isPrivate: false
+          description: Retorna os dados mais recentes das strings de um determinado inversor
+          sortKey: -1747778150393
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Relação entre User Parser Inverter
+    meta:
+      id: fld_f71d660742fd45d4aca18844b816779c
+      created: 1689859200000
+      modified: 1747966447236
+      sortKey: -1747871137193.5
+      description: Endpoints para gerenciamento de clientes parser
+    children:
+      - url: "{{ _.base_url }}/api/v1/user-parser/1"
+        name: Obter Cliente Parser
+        meta:
+          id: req_030006bf99644d9d9190aa1d55289e84
+          created: 1689859200000
+          modified: 1747963459236
+          isPrivate: false
+          description: Retorna os dados de um cliente parser específico
+          sortKey: -1747778150379
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/user-parser/user/1"
+        name: Listar Clientes Parser por Usuário
+        meta:
+          id: req_8e3cf0f032f1474892bca831baa53bc8
+          created: 1689859200000
+          modified: 1747963346214
+          isPrivate: false
+          description: Retorna todos os clientes parser de um determinado usuário
+          sortKey: -1747778150382
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/user-parser/1"
+        name: Atualizar Cliente Parser
+        meta:
+          id: req_94c535cb4dde42db961aeb05ad6d14fe
+          created: 1689859200000
+          modified: 1747963452863
+          isPrivate: false
+          description: Atualiza os dados de um cliente parser existente
+          sortKey: -1747778150380
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "parser_key": "abc123xyz456",
+              "user_id": 1,
+              "active": false,
+              "name": "Cliente Parser Atualizado"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/user-parser/1"
+        name: Excluir Cliente Parser
+        meta:
+          id: req_a79214100c854257814400f08e988bc7
+          created: 1689859200000
+          modified: 1747963443298
+          isPrivate: false
+          description: Remove um cliente parser do sistema
+          sortKey: -1747778150381
+        method: DELETE
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/user-parser"
+        name: Criar Cliente Parser
+        meta:
+          id: req_c2e7a248f19d4029b64bf394a03acc83
+          created: 1689859200000
+          modified: 1748010238548
+          isPrivate: false
+          description: Cria um novo cliente parser no sistema
+          sortKey: -1747778150377
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "user_id": 5,
+              "inverter_id":1,
+            	"parser_worker_id":23,
+            	"parser_params":{
+            		"api_token":"a42j65608h1o5ou9oasb45fs1o2kplh3",
+            		"sn":"YIDHCBA0FT",
+            		"device_type":"min",
+            		"stringNum":2
+            	}
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/user-parser"
+        name: Listar Clientes Parser
+        meta:
+          id: req_d6c5916277524378a596bf75c15d3b69
+          created: 1689859200000
+          modified: 1747963464791
+          isPrivate: false
+          description: Retorna todos os clientes parser cadastrados
+          sortKey: -1747778150378
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/user-parser/growatt"
+        name: Dados Growatt
+        meta:
+          id: req_b2c95487eed84778b35936927d431d97
+          created: 1747961388157
+          modified: 1747964068905
+          isPrivate: false
+          sortKey: -1747778150277
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Parser Worker
+    meta:
+      id: fld_e21ee39759c149d689e7dc5fbe9bb637
+      created: 1747964123997
+      modified: 1747964123997
+      sortKey: -1747964123997
+    children:
+      - url: "{{ _.base_url }}/api/v1/parser-worker"
+        name: Retornar todos os Parser Workers
+        meta:
+          id: req_a657f9f6885e4147b124a33976b495c1
+          created: 1747964130954
+          modified: 1747964198340
+          isPrivate: false
+          sortKey: -1747964130954
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/parser-worker"
+        name: Inserir novo Parser Worker
+        meta:
+          id: req_db5288168a5742eb89103a42a23849f6
+          created: 1747964215252
+          modified: 1747964489330
+          isPrivate: false
+          sortKey: -1747964215252
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"manufacturer":"Growatt",
+            	"api_key":"chaveteste123"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/parser-worker/1"
+        name: Atualizar Parser Worker
+        meta:
+          id: req_bb20f0f31814407187b75f55a7c188e5
+          created: 1747964304755
+          modified: 1747964576461
+          isPrivate: false
+          sortKey: -1747964304755
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"api_key":"chaveteste1234"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/parser-worker/23"
+        name: Inativa um Parser Worker
+        meta:
+          id: req_98a479e7ed154aaaa13a8cd1c0781eae
+          created: 1747964640396
+          modified: 1747965797653
+          isPrivate: false
+          sortKey: -1747964640396
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/parser-worker/activate/23"
+        name: Ativa um Parser Woker
+        meta:
+          id: req_78a6638e477d4cf7bc3eda9a8af46cef
+          created: 1747966100176
+          modified: 1747966151571
+          isPrivate: false
+          sortKey: -1747966100176
+        method: POST
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/parser-worker/23"
+        name: Retornar um Parser Worker
+        meta:
+          id: req_9a2ec7fad27148cd8d0126b25a9bb890
+          created: 1748009218762
+          modified: 1748009310115
+          isPrivate: false
+          sortKey: -1747871140673.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - url: "{{ _.base_url }}"
+    name: API Root
+    meta:
+      id: req_de64103c815d4913a744d9e19678110e
+      created: 1689859200000
+      modified: 1689859200000
+      isPrivate: false
+      sortKey: -1747778150366
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_2180c16e0bdcde48c050f097d52942379585892e
+    created: 1747778153415
+    modified: 1747778153415
+environments:
+  name: Base Environment
+  meta:
+    id: env_d890d86b29f04dad89a729654ce79f70
+    created: 1689859200000
+    modified: 1689859200000
+    isPrivate: false
+  data:
+    base_url: http://localhost:8080
