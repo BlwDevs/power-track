@@ -59,7 +59,8 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			parserWorker.GET("", parserWorkerHandler.GetAll)
 			parserWorker.GET("/:id", parserWorkerHandler.GetByID)
 			parserWorker.PUT("/:id", parserWorkerHandler.Update)
-			parserWorker.DELETE("/:id", parserWorkerHandler.Delete)
+			parserWorker.DELETE("/:id", parserWorkerHandler.Deactivate)
+			parserWorker.POST("/activate/:id", parserWorkerHandler.Activate)
 			parserWorker.GET("/manufacturer/:manufacturer", parserWorkerHandler.GetByManufacturer)
 
 		}
@@ -68,7 +69,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 		stringpv := v1.Group("/strings")
 		{
 			stringpv.GET("/latest/:inverterId", stringpvHandler.GetLatest)
-			stringpv.GET("/historical/:inverterId/:startTime/:endTime", stringpvHandler.GetHistorical)
+			stringpv.GET("/historical/:inverterId", stringpvHandler.GetHistorical)
 			stringpv.GET("/:inverterId", stringpvHandler.GetByInverter)
 			stringpv.POST("", stringpvHandler.Create)
 			// stringpv.POST("/csv-parser", stringpvHandler.CreateFromCSV)
