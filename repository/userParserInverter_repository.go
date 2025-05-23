@@ -23,8 +23,8 @@ func (r *UserParserInverterRepository) Create(client *models.UserParserInverter)
 		return nil, err
 	}
 
-	// Recarrega o cliente com o relacionamento do usuário preenchido
-	if err := r.db.Preload("User").First(client, client.ID).Error; err != nil {
+	// Recarrega o cliente com o relacionamento do usuário, inverter e parserworker preenchido
+	if err := r.db.Preload("User").Preload("Inverter").Preload("ParserWorker").First(client, client.ID).Error; err != nil {
 		return nil, err
 	}
 

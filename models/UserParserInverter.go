@@ -1,6 +1,8 @@
 package models
 
 import (
+	"encoding/json"
+
 	"gorm.io/gorm"
 )
 
@@ -16,8 +18,7 @@ type UserParserInverter struct {
 	Active bool `json:"active" gorm:"type:boolean;default:true"`
 
 	// Parametros do cliente parser (json)
-	ParserParams string `json:"parser_params" gorm:"type:jsonb"`
-
+	ParserParams json.RawMessage `json:"parser_params" gorm:"type:jsonb"`
 	//FK ParserWorker
 
 	ParserWorkerID uint         `json:"parser_worker_id" gorm:"not null"`
