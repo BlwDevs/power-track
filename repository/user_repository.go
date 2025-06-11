@@ -18,10 +18,20 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 
 // Create adiciona um novo usuário no banco de dados
 func (r *UserRepository) Create(user *models.User) (*models.User, error) {
-	if err := r.db.Create(user).Error; err != nil {
-		return nil, err
+	//cria hash da senha
+	if user.Password != "" {
+		hashedPassword, err := user.HashPassword(user.Password)
+		if err != nil {
+			return nil, err
+		}
+		user.Password = hashedPassword
+
+		if err := r.db.Create(user).Error; err != nil {
+			return nil, err
+		}
+		return user, nil
 	}
-	return user, nil
+	return nil, nil
 }
 
 // GetByID busca um usuário pelo ID
@@ -67,4 +77,4 @@ func (r *UserRepository) GetByPlan(plan models.Plan) ([]models.User, error) {
 	var users []models.User
 	result := r.db.Where("plan = ?", plan).Find(&users)
 	return users, result.Error
-} 
+}
