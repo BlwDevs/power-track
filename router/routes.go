@@ -75,20 +75,21 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 
 		// Rotas de usuários
 		users := v1.Group("/users")
-		users.Use(middleware.AuthMiddleware()) // Protege todas as rotas de usuários com autenticação
+		users.Use(middleware.AuthMiddleware(userService)) // Protege todas as rotas de usuários com autenticação
 		{
 			users.POST("", userHandler.Create)
-			users.GET("", userHandler.GetAll).Use(middleware.AuthMiddleware())
+			users.GET("", userHandler.GetAll)
 			users.GET("/:id", userHandler.GetByID)
 			users.PUT("/:id", userHandler.Update)
 			users.DELETE("/:id", userHandler.Delete)
+			users.POST("/logout", userHandler.Logout)
 		}
 
 		// Rotas para login e autenticação
 		auth := v1.Group("/auth")
 		{
 			auth.POST("/login", userHandler.Login)
-			auth.POST("/logout", userHandler.Logout)
+
 			//auth.POST("/register", userHandler.Register)
 		}
 

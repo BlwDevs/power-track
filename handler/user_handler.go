@@ -203,7 +203,7 @@ func (h *UserHandler) Logout(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid user ID"})
 		return
 	}
-	err := h.userService.InvalidateToken(strconv.FormatUint(uint64(userID), 10))
+	err := h.userService.InvalidateToken(userID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not invalidate token"})
 		println("Error invalidating token:", err.Error())

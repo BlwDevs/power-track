@@ -32,6 +32,7 @@ type User struct {
 	Phone    string `json:"phone" gorm:"type:varchar(20);uniqueIndex"`
 	Role     Role   `json:"role" gorm:"type:varchar(10);default:'common'"`
 	Password string `json:"password" gorm:"type:varchar(255)"`
+	Token    string `json:"token" gorm:"type:varchar(255);uniqueIndex;default:null;null"`
 }
 
 // HashPassword cria um hash da senha do usuário
