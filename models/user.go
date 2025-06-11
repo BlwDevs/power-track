@@ -1,6 +1,7 @@
 package models
 
 import (
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -31,4 +32,13 @@ type User struct {
 	Phone    string `json:"phone" gorm:"type:varchar(20);uniqueIndex"`
 	Role     Role   `json:"role" gorm:"type:varchar(10);default:'common'"`
 	Password string `json:"password" gorm:"type:varchar(255)"`
+}
+
+// HashPassword cria um hash da senha do usuário
+func (u *User) HashPassword(password string) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hashedPassword), nil
 }
