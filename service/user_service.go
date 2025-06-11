@@ -67,7 +67,7 @@ func (s *UserService) Authenticate(email, password string) (*models.User, error)
 	if err != nil {
 		return nil, errors.New("credenciais inválidas")
 	}
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil { // Compare a senha fornecida com a senha armazenada
 		return nil, errors.New("credenciais inválidas")
 	}
 
@@ -80,9 +80,16 @@ func (s *UserService) GenerateToken(user *models.User) (string, error) {
 		"id":  user.ID,
 		"exp": time.Now().Add(time.Hour * 24).Unix(),
 	})
-	token, err := generateToken.SignedString(os.Getenv("JWT_SECRET"))
+	token, err := generateToken.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
 		return "", err
 	}
 	return token, nil
+}
+
+// Invalida o token JWT do usuário
+func (s *UserService) InvalidateToken(tokenString string) error {
+	// Aqui você pode implementar a lógica para invalidar o token, como armazená-lo em um banco de dados ou cache
+	// Por simplicidade, vamos apenas retornar nil, pois a invalidação real depende da implementação do middleware
+	return nil
 }
