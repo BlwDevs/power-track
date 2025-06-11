@@ -84,12 +84,25 @@ func (s *UserService) GenerateToken(user *models.User) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
+	// Armazena o token no usuário
+	user.Token = token
+	if err := s.userRepo.Update(user); err != nil {
+		return "", errors.New("erro ao atualizar o token do usuário")
+	}
+	// Retorna o token gerado
 	return token, nil
 }
 
 // Invalida o token JWT do usuário
-func (s *UserService) InvalidateToken(tokenString string) error {
-	// Aqui você pode implementar a lógica para invalidar o token, como armazená-lo em um banco de dados ou cache
-	// Por simplicidade, vamos apenas retornar nil, pois a invalidação real depende da implementação do middleware
+func (s *UserService) InvalidateToken(userId uint) error {
+	user, err := s.userRepo.GetByID(userId)
+	if err != nil {
+		return errors.New("usuário não encontrado")
+	}
+	user.Token = "" // Limpa o token do usuário
+	if err := s.userRepo.Update(user); err != nil {
+		return errors.New("erro ao invalidar o token do usuário")
+	}
 	return nil
 }
