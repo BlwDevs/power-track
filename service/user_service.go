@@ -67,7 +67,7 @@ func (s *UserService) Authenticate(email, password string) (*models.User, error)
 	if err != nil {
 		return nil, errors.New("credenciais inválidas")
 	}
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil { // Compare a senha fornecida com a senha armazenada
 		return nil, errors.New("credenciais inválidas")
 	}
 
@@ -80,9 +80,29 @@ func (s *UserService) GenerateToken(user *models.User) (string, error) {
 		"id":  user.ID,
 		"exp": time.Now().Add(time.Hour * 24).Unix(),
 	})
-	token, err := generateToken.SignedString(os.Getenv("JWT_SECRET"))
+	token, err := generateToken.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
 		return "", err
 	}
+
+	// Armazena o token no usuário
+	user.Token = token
+	if err := s.userRepo.Update(user); err != nil {
+		return "", errors.New("erro ao atualizar o token do usuário")
+	}
+	// Retorna o token gerado
 	return token, nil
+}
+
+// Invalida o token JWT do usuário
+func (s *UserService) InvalidateToken(userId uint) error {
+	user, err := s.userRepo.GetByID(userId)
+	if err != nil {
+		return errors.New("usuário não encontrado")
+	}
+	user.Token = "" // Limpa o token do usuário
+	if err := s.userRepo.Update(user); err != nil {
+		return errors.New("erro ao invalidar o token do usuário")
+	}
+	return nil
 }

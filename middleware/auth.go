@@ -2,6 +2,8 @@ package middleware
 
 import (
 	"net/http"
+	"os"
+	"power-track/service"
 
 	"time"
 
@@ -9,7 +11,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func AuthMiddleware(secretKey string) gin.HandlerFunc {
+func AuthMiddleware(userService *service.UserService) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		token := c.Request.Header.Get("Authorization")
@@ -19,10 +21,10 @@ func AuthMiddleware(secretKey string) gin.HandlerFunc {
 			return
 		}
 
-		tokenStr := token[len("Bearer "):]
+		//tokenStr := token[len("Bearer "):]
 
-		parsedToken, err := jwt.Parse(tokenStr, func(token *jwt.Token) (any, error) {
-			return []byte(secretKey), nil
+		parsedToken, err := jwt.Parse(token, func(token *jwt.Token) (any, error) {
+			return []byte(os.Getenv("JWT_SECRET")), nil
 		})
 
 		if err != nil || !parsedToken.Valid {
@@ -45,7 +47,28 @@ func AuthMiddleware(secretKey string) gin.HandlerFunc {
 			}
 		}
 
-		c.Set("userID", claims["userID"])
+		// Verificar no banco se o usuário esta autenticado
+		userID, ok := claims["id"].(float64)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Token inválido"})
+			c.Abort()
+			return
+		}
+		// Checar token no banco de dados
+
+		user, err := userService.GetUserByID(uint(userID))
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Usuário não encontrado"})
+			c.Abort()
+			return
+		}
+		if user.Token != token {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Token não corresponde ao usuário"})
+			c.Abort()
+			return
+		}
+
+		c.Set("userID", user.ID)
 
 		c.Next()
 	}
