@@ -72,6 +72,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			stringpv.GET("/historical/:inverterId", stringpvHandler.GetHistorical)
 			stringpv.GET("/:inverterId", stringpvHandler.GetByInverter)
 			stringpv.POST("", stringpvHandler.Create)
+			//stringpv.POST("/batch", stringpvHandler.CreateBatch)
 			// stringpv.POST("/csv-parser", stringpvHandler.CreateFromCSV)
 		}
 
@@ -79,7 +80,6 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 		users := v1.Group("/users")
 		users.Use(middleware.AuthMiddleware(userService)) // Protege todas as rotas de usuários com autenticação
 		{
-			users.POST("", userHandler.Create)
 			users.GET("", userHandler.GetAll)
 			users.GET("/:id", userHandler.GetByID)
 			users.PUT("/:id", userHandler.Update)
@@ -91,8 +91,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 		auth := v1.Group("/auth")
 		{
 			auth.POST("/login", userHandler.Login)
-
-			//auth.POST("/register", userHandler.Register)
+			auth.POST("/create", userHandler.Create)
 		}
 
 		// Rotas de clientes parser
@@ -104,7 +103,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			UserParserInverters.PUT("/:id", UserParserInverterHandler.Update)
 			UserParserInverters.DELETE("/:id", UserParserInverterHandler.Delete)
 			UserParserInverters.GET("/user/:userId", UserParserInverterHandler.GetByUserID)
-			parserWorker.GET("/growatt", UserParserInverterHandler.GetGrowattData)
+			UserParserInverters.GET("/growatt", UserParserInverterHandler.GetGrowattData)
 		}
 	}
 }

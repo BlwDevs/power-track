@@ -67,7 +67,7 @@ func (h *UserParserInverterHandler) GetByID(ctx *gin.Context) {
 	clientID, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"erro": "ID do cliente parser inválido",
+			"erro": "ID do cliente parser inválido1",
 		})
 		return
 	}
@@ -96,7 +96,7 @@ func (h *UserParserInverterHandler) Update(ctx *gin.Context) {
 	clientID, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"erro": "ID do cliente parser inválido",
+			"erro": "ID do cliente parser inválido2",
 		})
 		return
 	}
@@ -136,7 +136,7 @@ func (h *UserParserInverterHandler) Delete(ctx *gin.Context) {
 	clientID, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"erro": "ID do cliente parser inválido",
+			"erro": "ID do cliente parser inválido3",
 		})
 		return
 	}

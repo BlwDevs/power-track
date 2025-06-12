@@ -131,3 +131,31 @@ func (h *StringpvHandler) Create(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, createdStringpv)
 }
+
+// CreateMany cria múltiplos registros de strings fotovoltaicas
+func (h *StringpvHandler) CreateMany(ctx *gin.Context) {
+	var strings []models.Stringpv
+	if err := ctx.ShouldBindJSON(&strings); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"erro": "Dados inválidos",
+		})
+		return
+	}
+
+	if len(strings) == 0 {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"erro": "Nenhum dado de string fotovoltaica fornecido",
+		})
+		return
+	}
+
+	createdStrings, err := h.stringpvService.CreateManyStringsData(strings)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"erro": err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, createdStrings)
+}

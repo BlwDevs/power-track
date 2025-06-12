@@ -1,4 +1,24 @@
+version: "3.8"
+
 services:
+  go_app:
+    build: .
+    container_name: go_app
+    networks:
+      - power-track-network
+      - default  # ainda pode manter a rede interna para o banco
+    depends_on:
+      - go_db
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: go_db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: goapi
+    restart: always
+
   go_db:
     image: postgres:16
     container_name: go_db
@@ -11,6 +31,8 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-
+networks:
+  power-track-network:
+    external: true  # <- importante
 volumes:
   db_data:

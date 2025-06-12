@@ -57,3 +57,15 @@ func (r *StringpvRepository) GetHistoricalDataByInverterID(inverterID uint, star
 	result := r.db.Where("inverter_id = ? AND timestamp BETWEEN ? AND ?", inverterID, startTime, endTime).Find(&stringpvs)
 	return stringpvs, result.Error
 }
+
+// CreateMany cria múltiplos registros de strings fotovoltaicas
+func (r *StringpvRepository) CreateMany(stringpvs []models.Stringpv) ([]models.Stringpv, error) {
+	if len(stringpvs) == 0 {
+		return nil, nil // Retorna nil se não houver dados para inserir
+	}
+
+	if err := r.db.Create(&stringpvs).Error; err != nil {
+		return nil, err
+	}
+	return stringpvs, nil
+}

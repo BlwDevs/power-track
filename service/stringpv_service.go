@@ -69,3 +69,18 @@ func (s *StringpvService) DeleteInverterData(inverterID uint) error {
 
 	return s.repo.DeleteByInverterID(inverterID)
 }
+
+// Criar multiplos registros de strings fotovoltaicas
+func (s *StringpvService) CreateManyStringsData(strings []models.Stringpv) ([]models.Stringpv, error) {
+	if len(strings) == 0 {
+		return nil, errors.New("no photovoltaic string data provided")
+	}
+
+	for _, stringpv := range strings {
+		if stringpv.InverterID == 0 {
+			return nil, errors.New("inverter ID is required for all strings")
+		}
+	}
+
+	return s.repo.CreateMany(strings)
+}
