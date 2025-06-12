@@ -67,7 +67,7 @@ func (h *UserParserInverterHandler) GetByID(ctx *gin.Context) {
 	clientID, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"erro": "ID do cliente parser inválido1",
+			"erro": "ID do cliente parser inválido",
 		})
 		return
 	}

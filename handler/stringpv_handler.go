@@ -136,9 +136,7 @@ func (h *StringpvHandler) Create(ctx *gin.Context) {
 func (h *StringpvHandler) CreateMany(ctx *gin.Context) {
 	var strings []models.Stringpv
 	if err := ctx.ShouldBindJSON(&strings); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"erro": "Dados inválidos",
-		})
+		ctx.JSON(http.StatusBadRequest, gin.H{"erro": "Dados inválidos: " + err.Error()})
 		return
 	}
 

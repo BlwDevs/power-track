@@ -100,22 +100,21 @@ func (r *UserParserInverterRepository) GetGrowattData() ([]map[string]interface{
 	}
 
 	var growattUsers []map[string]interface{}
-
 	for _, up := range userParsers {
 		// Decodifica ParserParams
 		var params map[string]interface{}
+
 		if err := json.Unmarshal([]byte(up.ParserParams), &params); err != nil {
 			continue // Ignora registros com JSON inválido
 		}
 
 		growattUser := map[string]interface{}{
-			"id":            up.ID,
-			"api_token":     "", // Preencher quando implementar
-			"sn":            params["sn"],
-			"device_type":   params["device_type"],
-			"inverter_id":   up.InverterID,
-			"growatt_token": params["growatt_token"],
-			"stringsNum":    params["stringsNum"],
+			"id":          up.ID,
+			"sn":          params["sn"],
+			"device_type": params["device_type"],
+			"inverter_id": up.InverterID,
+			"api_token":   params["api_token"],
+			"stringsNum":  params["stringNum"],
 		}
 		growattUsers = append(growattUsers, growattUser)
 	}

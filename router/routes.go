@@ -72,7 +72,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			stringpv.GET("/historical/:inverterId", stringpvHandler.GetHistorical)
 			stringpv.GET("/:inverterId", stringpvHandler.GetByInverter)
 			stringpv.POST("", stringpvHandler.Create)
-			//stringpv.POST("/batch", stringpvHandler.CreateBatch)
+			stringpv.POST("/batch", stringpvHandler.CreateMany)
 			// stringpv.POST("/csv-parser", stringpvHandler.CreateFromCSV)
 		}
 
