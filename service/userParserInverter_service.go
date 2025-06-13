@@ -62,6 +62,7 @@ func (s *UserParserInverterService) GetInactiveUserParserInverters() ([]models.U
 
 // GetGrowattData retorna todos os clientes parser ativos do fabricante Growatt
 func (s *UserParserInverterService) GetGrowattData() ([]map[string]interface{}, error) {
+
 	data, err := s.UserParserInverterRepo.GetGrowattData()
 	if err != nil {
 		return nil, err

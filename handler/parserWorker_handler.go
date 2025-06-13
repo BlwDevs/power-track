@@ -177,3 +177,32 @@ func (h *ParserWorkerHandler) GetByManufacturer(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, worker)
 }
+
+// RefreshAPIKey atualiza a chave de API de um programa de processamento de dados
+func (h *ParserWorkerHandler) RefreshAPIKey(ctx *gin.Context) {
+	id := ctx.Param("id")
+	if id == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"erro": "ID inválido",
+		})
+		return
+	}
+
+	idUint, err := strconv.ParseUint(id, 10, 32)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"erro": "ID inválido: " + err.Error(),
+		})
+		return
+	}
+
+	newAPIKey, err := h.parserWorkerService.RefreshAPIKey(uint(idUint))
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"erro": "Erro ao atualizar chave de API: " + err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"new_api_key": newAPIKey})
+}

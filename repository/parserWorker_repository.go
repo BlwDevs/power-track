@@ -54,3 +54,13 @@ func (r *ParserWorkerRepository) GetByManufacturer(manufacturer string) (*models
 	result := r.db.Where("manufacturer = ?", manufacturer).First(&parserWorker)
 	return &parserWorker, result.Error
 }
+
+// Valida a chave de API de um programa de processamento de dados
+func (r *ParserWorkerRepository) ValidateAPIKey(apiKey string) bool {
+	var parserWorker models.ParserWorker
+	if apiKey == "" {
+		return false
+	}
+	result := r.db.Where("api_key = ?", apiKey).First(&parserWorker)
+	return result.Error == nil && parserWorker.ID != 0
+}

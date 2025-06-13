@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 	"power-track/models"
+	"power-track/repository"
 	"power-track/service"
 	"strconv"
 
@@ -10,12 +11,14 @@ import (
 )
 
 type StringpvHandler struct {
-	stringpvService *service.StringpvService
+	stringpvService        *service.StringpvService
+	parserWorkerRepository *repository.ParserWorkerRepository
 }
 
-func NewStringpvHandler(service *service.StringpvService) *StringpvHandler {
+func NewStringpvHandler(service *service.StringpvService, parserWorkerRepo *repository.ParserWorkerRepository) *StringpvHandler {
 	return &StringpvHandler{
-		stringpvService: service,
+		stringpvService:        service,
+		parserWorkerRepository: parserWorkerRepo,
 	}
 }
 
@@ -134,6 +137,14 @@ func (h *StringpvHandler) Create(ctx *gin.Context) {
 
 // CreateMany cria múltiplos registros de strings fotovoltaicas
 func (h *StringpvHandler) CreateMany(ctx *gin.Context) {
+
+	if !h.parserWorkerRepository.ValidateAPIKey(ctx.GetHeader("Authorization")) {
+		ctx.JSON(http.StatusUnauthorized, gin.H{
+			"erro": "Chave de API inválida ou ausente",
+		})
+		return
+	}
+
 	var strings []models.Stringpv
 	if err := ctx.ShouldBindJSON(&strings); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"erro": "Dados inválidos: " + err.Error()})

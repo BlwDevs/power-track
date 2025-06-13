@@ -41,7 +41,7 @@ func (r *UserParserInverterRepository) GetByID(id uint) (*models.UserParserInver
 // GetAll retorna todos os clientes parser
 func (r *UserParserInverterRepository) GetAll() ([]models.UserParserInverter, error) {
 	var clients []models.UserParserInverter
-	result := r.db.Preload("User").Find(&clients)
+	result := r.db.Preload("User").Preload("ParserWorker").Preload("Inverter").Find(&clients)
 	return clients, result.Error
 }
 
@@ -85,6 +85,7 @@ func (r *UserParserInverterRepository) GetInactive() ([]models.UserParserInverte
 
 // GetGrowattData retorna todos os clientes parser ativos do fabricante Growatt
 func (r *UserParserInverterRepository) GetGrowattData() ([]map[string]interface{}, error) {
+
 	var userParsers []models.UserParserInverter
 
 	err := r.db.

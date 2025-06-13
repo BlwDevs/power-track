@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 	"power-track/models"
+	"power-track/repository"
 	"power-track/service"
 	"strconv"
 
@@ -11,11 +12,13 @@ import (
 
 type UserParserInverterHandler struct {
 	UserParserInverterService *service.UserParserInverterService
+	parserWorkerRepository    *repository.ParserWorkerRepository
 }
 
-func NewUserParserInverterHandler(service *service.UserParserInverterService) *UserParserInverterHandler {
+func NewUserParserInverterHandler(service *service.UserParserInverterService, parserWorkerRepo *repository.ParserWorkerRepository) *UserParserInverterHandler {
 	return &UserParserInverterHandler{
 		UserParserInverterService: service,
+		parserWorkerRepository:    parserWorkerRepo,
 	}
 }
 
@@ -185,12 +188,18 @@ func (h *UserParserInverterHandler) GetByUserID(ctx *gin.Context) {
 
 // Disponibilização de dados para o cliente parser Growatt
 func (h *UserParserInverterHandler) GetGrowattData(ctx *gin.Context) {
-	//verificar token
+
+	if !h.parserWorkerRepository.ValidateAPIKey(ctx.GetHeader("Authorization")) {
+		ctx.JSON(http.StatusUnauthorized, gin.H{
+			"erro": "Chave de API inválida ou não fornecida",
+		})
+		return
+	}
 
 	growattData, err := h.UserParserInverterService.GetGrowattData()
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"erro": "Erro ao buscar dados do Growatt",
+			"erro": "Erro ao buscar dados do Growatt: " + err.Error(),
 		})
 		return
 	}

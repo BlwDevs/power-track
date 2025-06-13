@@ -28,13 +28,13 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 	inverterHandler := handler.NewInverterHandler(inverterService)
 
 	stringpvService := service.NewStringpvService(stringpvRepo)
-	stringpvHandler := handler.NewStringpvHandler(stringpvService)
+	stringpvHandler := handler.NewStringpvHandler(stringpvService, parserWorkerRepo)
 
 	userService := service.NewUserService(userRepo)
 	userHandler := handler.NewUserHandler(userService)
 
 	UserParserInverterService := service.NewUserParserInverterService(UserParserInverterRepo)
-	UserParserInverterHandler := handler.NewUserParserInverterHandler(UserParserInverterService)
+	UserParserInverterHandler := handler.NewUserParserInverterHandler(UserParserInverterService, parserWorkerRepo)
 
 	parserWorkerService := service.NewParserWorkerService(parserWorkerRepo)
 	parserWorkerHandler := handler.NewParserWorkerHandler(parserWorkerService)
@@ -54,11 +54,13 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 
 		// Rotas do ParserWorker
 		parserWorker := v1.Group("/parser-worker")
+		parserWorker.Use(middleware.AuthMiddleware(userService)) // Protege as rotas do parser worker
 		{
 			parserWorker.POST("", parserWorkerHandler.Create)
 			parserWorker.GET("", parserWorkerHandler.GetAll)
 			parserWorker.GET("/:id", parserWorkerHandler.GetByID)
 			parserWorker.PUT("/:id", parserWorkerHandler.Update)
+			parserWorker.PUT("/api-key-refresh/:id", parserWorkerHandler.RefreshAPIKey)
 			parserWorker.DELETE("/:id", parserWorkerHandler.Deactivate)
 			parserWorker.POST("/activate/:id", parserWorkerHandler.Activate)
 			parserWorker.GET("/manufacturer/:manufacturer", parserWorkerHandler.GetByManufacturer)
@@ -72,7 +74,6 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			stringpv.GET("/historical/:inverterId", stringpvHandler.GetHistorical)
 			stringpv.GET("/:inverterId", stringpvHandler.GetByInverter)
 			stringpv.POST("", stringpvHandler.Create)
-			stringpv.POST("/batch", stringpvHandler.CreateMany)
 			// stringpv.POST("/csv-parser", stringpvHandler.CreateFromCSV)
 		}
 
@@ -92,6 +93,8 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 		{
 			auth.POST("/login", userHandler.Login)
 			auth.POST("/create", userHandler.Create)
+			auth.GET("/growatt", UserParserInverterHandler.GetGrowattData)
+			auth.POST("/batch", stringpvHandler.CreateMany)
 		}
 
 		// Rotas de clientes parser
@@ -103,7 +106,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			UserParserInverters.PUT("/:id", UserParserInverterHandler.Update)
 			UserParserInverters.DELETE("/:id", UserParserInverterHandler.Delete)
 			UserParserInverters.GET("/user/:userId", UserParserInverterHandler.GetByUserID)
-			UserParserInverters.GET("/growatt", UserParserInverterHandler.GetGrowattData)
+
 		}
 	}
 }
