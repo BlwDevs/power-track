@@ -50,7 +50,7 @@ func (r *UserRepository) GetAll() ([]models.User, error) {
 
 // Update atualiza os dados de um usuário
 func (r *UserRepository) Update(user *models.User) error {
-	return r.db.Save(user).Error
+	return r.db.Model(&models.User{}).Where("id = ?", user.ID).Updates(user).Error
 }
 
 // Delete remove um usuário pelo ID

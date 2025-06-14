@@ -44,11 +44,12 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 	{
 		// Rotas do inversor
 		inverter := v1.Group("/inverters")
+		inverter.Use(middleware.AuthMiddleware(userService)) // Protege as rotas do inversor
 		{
-			inverter.POST("", inverterHandler.Create)
-			inverter.GET("", inverterHandler.GetList)
-			inverter.GET("/:id", inverterHandler.GetData)
-			inverter.PUT("/:id", inverterHandler.Update)
+			inverter.POST("", inverterHandler.Create)           // Rota para criar um novo inversor
+			inverter.GET("", inverterHandler.GetList)           // Rota para obter a lista de inversores
+			inverter.GET("/:id", inverterHandler.GetData)       // Rota para obter dados de um inversor específico
+			inverter.PUT("/:id", inverterHandler.Update)        // Rota para atualizar um inversor específico
 			inverter.DELETE("/:id", inverterHandler.DeleteById) // Nova rota para deletar
 		}
 
@@ -56,19 +57,20 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 		parserWorker := v1.Group("/parser-worker")
 		parserWorker.Use(middleware.AuthMiddleware(userService)) // Protege as rotas do parser worker
 		{
-			parserWorker.POST("", parserWorkerHandler.Create)
-			parserWorker.GET("", parserWorkerHandler.GetAll)
-			parserWorker.GET("/:id", parserWorkerHandler.GetByID)
-			parserWorker.PUT("/:id", parserWorkerHandler.Update)
+			parserWorker.POST("", parserWorkerHandler.Create)     // Rota para criar um novo parser worker
+			parserWorker.GET("", parserWorkerHandler.GetAll)      // Rota para obter todos os parser workers
+			parserWorker.GET("/:id", parserWorkerHandler.GetByID) // Rota para obter um parser worker específico
+			parserWorker.PUT("/:id", parserWorkerHandler.Update)  // Rota para atualizar um parser worker específico
 			parserWorker.PUT("/api-key-refresh/:id", parserWorkerHandler.RefreshAPIKey)
-			parserWorker.DELETE("/:id", parserWorkerHandler.Deactivate)
-			parserWorker.POST("/activate/:id", parserWorkerHandler.Activate)
-			parserWorker.GET("/manufacturer/:manufacturer", parserWorkerHandler.GetByManufacturer)
+			parserWorker.DELETE("/:id", parserWorkerHandler.Deactivate)                            // Rota para desativar um parser worker específico
+			parserWorker.POST("/activate/:id", parserWorkerHandler.Activate)                       // Rota para ativar um parser worker específico
+			parserWorker.GET("/manufacturer/:manufacturer", parserWorkerHandler.GetByManufacturer) // Rota para obter parser workers por fabricante
 
 		}
 
 		// Rotas das strings fotovoltaicas
 		stringpv := v1.Group("/strings")
+		stringpv.Use(middleware.AuthMiddleware(userService)) // Protege as rotas de strings fotovoltaicas
 		{
 			stringpv.GET("/latest/:inverterId", stringpvHandler.GetLatest)
 			stringpv.GET("/historical/:inverterId", stringpvHandler.GetHistorical)
@@ -93,12 +95,13 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 		{
 			auth.POST("/login", userHandler.Login)
 			auth.POST("/create", userHandler.Create)
-			auth.GET("/growatt", UserParserInverterHandler.GetGrowattData)
-			auth.POST("/batch", stringpvHandler.CreateMany)
+			auth.GET("/growatt", UserParserInverterHandler.GetGrowattData) // Rota para obter dados do Growatt Parser Worker precisa de Api Key
+			auth.POST("/batch", stringpvHandler.CreateMany)                // Rota para criar várias strings fotovoltaicas Parser Worker precisa de Api Key
 		}
 
 		// Rotas de clientes parser
 		UserParserInverters := v1.Group("/user-parser")
+		UserParserInverters.Use(middleware.AuthMiddleware(userService)) // Protege as rotas do UserParserInverter
 		{
 			UserParserInverters.POST("", UserParserInverterHandler.Create)
 			UserParserInverters.GET("", UserParserInverterHandler.GetAll)

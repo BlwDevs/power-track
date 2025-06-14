@@ -37,8 +37,17 @@ func (s *UserService) GetUserByID(id uint) (*models.User, error) {
 }
 
 // UpdateUser atualiza os dados de um usuário
-func (s *UserService) UpdateUser(user *models.User) error {
-	return s.userRepo.Update(user)
+func (s *UserService) UpdateUser(userUpdates *models.User) error {
+
+	if userUpdates.Password != "" {
+		hashedPassword, err := userUpdates.HashPassword(userUpdates.Password)
+		if err != nil {
+			return err
+		}
+		userUpdates.Password = hashedPassword
+	}
+
+	return s.userRepo.Update(userUpdates)
 }
 
 // DeleteUser remove um usuário pelo ID

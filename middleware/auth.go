@@ -63,7 +63,7 @@ func AuthMiddleware(userService *service.UserService) gin.HandlerFunc {
 			return
 		}
 		if user.Token != token {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Token não corresponde ao usuário"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Token inválido"})
 			c.Abort()
 			return
 		}
