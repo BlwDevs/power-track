@@ -150,3 +150,24 @@ func (h *InverterHandler) Update(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, updatedInverter)
 }
+
+// Retorna os inversores do usuário logado
+func (h *InverterHandler) GetMyInverters(ctx *gin.Context) {
+	userID, exists := ctx.Get("userID")
+	if !exists {
+		ctx.JSON(http.StatusUnauthorized, gin.H{
+			"erro": "Usuário não autenticado",
+		})
+		return
+	}
+
+	inverters, err := h.inverterService.GetInvertersByUserID(userID.(uint))
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"erro": "Erro ao buscar inversores do usuário",
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, inverters)
+}
