@@ -44,7 +44,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 	{
 		// Rotas do inversor
 		inverter := v1.Group("/inverters")
-		inverter.Use(middleware.AuthMiddleware(userService)) // Protege as rotas do inversor
+		inverter.Use(middleware.AdminAuthMiddleware(userService)) // Limita acesso às rotas de inversores apenas para administradores
 		{
 			inverter.POST("", inverterHandler.Create)           // Rota para criar um novo inversor
 			inverter.GET("", inverterHandler.GetList)           // Rota para obter a lista de inversores
@@ -55,7 +55,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 
 		// Rotas do ParserWorker
 		parserWorker := v1.Group("/parser-worker")
-		parserWorker.Use(middleware.AuthMiddleware(userService)) // Protege as rotas do parser worker
+		parserWorker.Use(middleware.AdminAuthMiddleware(userService)) // Limita acesso às rotas de parser workers apenas para administradores
 		{
 			parserWorker.POST("", parserWorkerHandler.Create)     // Rota para criar um novo parser worker
 			parserWorker.GET("", parserWorkerHandler.GetAll)      // Rota para obter todos os parser workers
@@ -70,7 +70,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 
 		// Rotas das strings fotovoltaicas
 		stringpv := v1.Group("/strings")
-		stringpv.Use(middleware.AuthMiddleware(userService)) // Protege as rotas de strings fotovoltaicas
+		stringpv.Use(middleware.AdminAuthMiddleware(userService)) // Limita acesso às rotas de strings fotovoltaicas apenas para administradores
 		{
 			stringpv.GET("/latest/:inverterId", stringpvHandler.GetLatest)
 			stringpv.GET("/historical/:inverterId", stringpvHandler.GetHistorical)
@@ -81,7 +81,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 
 		// Rotas de usuários
 		users := v1.Group("/users")
-		users.Use(middleware.AuthMiddleware(userService)) // Protege todas as rotas de usuários com autenticação
+		users.Use(middleware.AdminAuthMiddleware(userService)) // limita acesso às rotas de usuários apenas para administradores
 		{
 			users.GET("", userHandler.GetAll)
 			users.GET("/:id", userHandler.GetByID)
@@ -90,8 +90,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			users.POST("/logout", userHandler.Logout)
 		}
 
-		// Rotas para login e autenticação
-		auth := v1.Group("/auth")
+		auth := v1.Group("/auth") // Rotas de autenticação
 		{
 			auth.POST("/login", userHandler.Login)
 			auth.POST("/create", userHandler.Create)
@@ -101,7 +100,7 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 
 		// Rotas de clientes parser
 		UserParserInverters := v1.Group("/user-parser")
-		UserParserInverters.Use(middleware.AuthMiddleware(userService)) // Protege as rotas do UserParserInverter
+		UserParserInverters.Use(middleware.AdminAuthMiddleware(userService)) // Limita acesso às rotas de UserParserInverters apenas para administradores
 		{
 			UserParserInverters.POST("", UserParserInverterHandler.Create)
 			UserParserInverters.GET("", UserParserInverterHandler.GetAll)
@@ -110,6 +109,17 @@ func InitializeRoutes(router *gin.Engine, db *gorm.DB) {
 			UserParserInverters.DELETE("/:id", UserParserInverterHandler.Delete)
 			UserParserInverters.GET("/user/:userId", UserParserInverterHandler.GetByUserID)
 
+		}
+
+		MeRoutes := v1.Group("/me")
+		MeRoutes.Use(middleware.AuthMiddleware(userService)) // Protege as rotas de usuário
+		{
+			MeRoutes.GET("", userHandler.GetMe)                                           // Rota para obter os dados do usuário
+			MeRoutes.PUT("", userHandler.UpdateMe)                                        // Rota para atualizar os dados do usuário
+			MeRoutes.GET("/inverters", inverterHandler.GetMyInverters)                    //Rota para obter os inversores do usuário
+			MeRoutes.GET("strings/:inverterId", stringpvHandler.GetByInverter)            // Rota para obter as strings fotovoltaicas do usuário por ID do inversor
+			MeRoutes.GET("strings/latest/:inverterId", stringpvHandler.GetLatest)         // Rota para obter as últimas strings fotovoltaicas do usuário por ID do inversor
+			MeRoutes.GET("strings/historical/:inverterId", stringpvHandler.GetHistorical) // Rota para obter o histórico de strings fotovoltaicas do usuário por ID do inversor
 		}
 	}
 }
