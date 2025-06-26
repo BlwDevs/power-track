@@ -13,16 +13,153 @@ collection:
       sortKey: -1747917630595.25
       description: Endpoints para gerenciamento de usuários
     children:
+      - name: Usuário logado
+        meta:
+          id: fld_ef34c229c11a4e79a12d04e3864a0440
+          created: 1750952270476
+          modified: 1750953189540
+          sortKey: -1747778150475
+        children:
+          - url: "{{ _.base_url }}/api/v1/me"
+            name: Meus dados
+            meta:
+              id: req_8f04016258114b4fbe5a4b094e6020f8
+              created: 1750952305789
+              modified: 1750952484418
+              isPrivate: false
+              sortKey: -1750952305790
+            method: GET
+            headers:
+              - id: pair_e274cfba011f4be9811234b3a20f02ec
+                name: Authorization
+                value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTEwMzg2OTAsImlkIjoxfQ.WuJyG8XnKXc38wXbltOzo5NnSM2iFGCP0z8_ZTxzfAQ
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/api/v1/me/inverters"
+            name: Meus inversores
+            meta:
+              id: req_d6cfb10d407c43cba24c709f5d92075b
+              created: 1750952477170
+              modified: 1750952492043
+              isPrivate: false
+              sortKey: -1750354476953.5
+            method: GET
+            headers:
+              - id: pair_e274cfba011f4be9811234b3a20f02ec
+                name: Authorization
+                value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTEwMzg2OTAsImlkIjoxfQ.WuJyG8XnKXc38wXbltOzo5NnSM2iFGCP0z8_ZTxzfAQ
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/api/v1/me/strings/1"
+            name: Minhas strings por inversor
+            meta:
+              id: req_c70f645c17404cc1b5897fe99aa2040d
+              created: 1750952552080
+              modified: 1750952580668
+              isPrivate: false
+              sortKey: -1750055562535.25
+            method: GET
+            headers:
+              - id: pair_e274cfba011f4be9811234b3a20f02ec
+                name: Authorization
+                value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTEwMzg2OTAsImlkIjoxfQ.WuJyG8XnKXc38wXbltOzo5NnSM2iFGCP0z8_ZTxzfAQ
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/api/v1/me/strings/latest/1"
+            name: Minhas ultimas strings por inversor
+            meta:
+              id: req_d696e1cbdf09443085efaf1cf09946e4
+              created: 1750952987389
+              modified: 1750953005183
+              isPrivate: false
+              sortKey: -1749906105326.125
+            method: GET
+            headers:
+              - id: pair_e274cfba011f4be9811234b3a20f02ec
+                name: Authorization
+                value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTEwMzg2OTAsImlkIjoxfQ.WuJyG8XnKXc38wXbltOzo5NnSM2iFGCP0z8_ZTxzfAQ
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/api/v1/me/strings/historical/1"
+            name: Meus dados históricos por inversor
+            meta:
+              id: req_c7b0902f097f4fcebcd21921cccf2b37
+              created: 1750953043621
+              modified: 1750953143178
+              isPrivate: false
+              sortKey: -1749831376721.5625
+            method: GET
+            body:
+              mimeType: multipart/form-data
+            parameters:
+              - id: pair_30ba322d6aea4ce9aa456fc1733513c7
+                name: start_time
+                value: 2025-06-20
+                disabled: false
+              - id: pair_8b42f1040c434baf8fb15cd3b1847399
+                name: end_time
+                value: 2025-06-21
+                disabled: false
+            headers:
+              - name: Content-Type
+                value: multipart/form-data
+              - id: pair_e274cfba011f4be9811234b3a20f02ec
+                name: Authorization
+                value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTEwMzg2OTAsImlkIjoxfQ.WuJyG8XnKXc38wXbltOzo5NnSM2iFGCP0z8_ZTxzfAQ
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
       - url: "{{ _.base_url }}/api/v1/users/1"
         name: Obter Usuário
         meta:
           id: req_44075f760ce3429a8749d8597c265b9f
           created: 1689859200000
-          modified: 1689859200000
+          modified: 1749678877576
           isPrivate: false
           description: Retorna os dados de um usuário específico
           sortKey: -1747778150373
         method: GET
+        headers:
+          - id: pair_791329d165784736a5c25548963d9d9d
+            name: authorization
+            value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDk3NjQ5OTAsImlkIjo3fQ.OlTFxyOU9Q96TjTPwN3tD7U13rUcknn2DnBLUMeNRVM
+            disabled: false
+            type: text
+            multiline: false
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -54,11 +191,18 @@ collection:
         meta:
           id: req_6f44d991d0f04b4fae486138d005ce5c
           created: 1689859200000
-          modified: 1689859200000
+          modified: 1750952404337
           isPrivate: false
           description: Retorna todos os usuários cadastrados
           sortKey: -1747778150371
         method: GET
+        headers:
+          - id: pair_0bfaee91e90a40339444d751882ebeca
+            name: Authorization
+            value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTEwMzg2OTAsImlkIjoxfQ.WuJyG8XnKXc38wXbltOzo5NnSM2iFGCP0z8_ZTxzfAQ
+            disabled: false
+        authentication:
+          type: none
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -67,12 +211,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.base_url }}/api/v1/users"
+      - url: "{{ _.base_url }}/api/v1/auth/create"
         name: Criar Usuário
         meta:
           id: req_b5f7b4f53fb645818e04c16fdd4eb099
           created: 1689859200000
-          modified: 1748010030173
+          modified: 1750360055321
           isPrivate: false
           description: Cria um novo usuário no sistema
           sortKey: -1747778150369
@@ -81,14 +225,14 @@ collection:
           mimeType: application/json
           text: |-
             {
-              "cpf": "063.112.055-64",
+              "cpf": "153.112.055-64",
               "name": "Vithor",
-              "email": "Vithorfreitass@gmail.com",
+              "email": "vithor@gmail.com",
               "address": "Rua das Flores, 123 - São Paulo/SP",
               "plan": 1,
-              "phone": "(11) 98565-4321",
+              "phone": "(11) 98485-4321",
             	"password":"password",
-            	"role":"commons"
+            	"role":"admin"
             }
         headers:
           - name: Content-Type
@@ -101,12 +245,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.base_url }}/api/v1/users/1"
+      - url: "{{ _.base_url }}/api/v1/users/3"
         name: Atualizar Usuário
         meta:
           id: req_fb700ad549804a26953ef1563db8c243
           created: 1689859200000
-          modified: 1748009603742
+          modified: 1749918783735
           isPrivate: false
           description: Atualiza os dados de um usuário existente
           sortKey: -1747778150374
@@ -115,18 +259,66 @@ collection:
           mimeType: application/json
           text: |-
             {
-              "cpf": "123.456.789-00",
-              "name": "João Silva",
-              "email": "joao.silva@exemplo.com",
-              "address": "Rua das Flores, 123 - São Paulo/SP",
-              "plan": 1,
-              "phone": "(11) 98765-4321",
-            	"password":"password",
-            	"role":"common"
+              "password":"password"
             }
         headers:
           - name: Content-Type
             value: application/json
+            id: pair_77dcca12e8f544a9bde40412efb683c8
+          - id: pair_45c6f03c4eda4e06aa044b135f36220c
+            name: Authorization
+            value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTAwMDQzNjEsImlkIjoxfQ.f0VtSr5Mk3fgUBXCbOqRaaSqRhWklgthrjjmaEY_pRw
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/auth/login"
+        name: Logar Usuário
+        meta:
+          id: req_9d02060a279942ef9a5ac5ef1111205c
+          created: 1749606030124
+          modified: 1750953192351
+          isPrivate: false
+          sortKey: -1747778150575
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email":"vithorfreitass@gmail.com",
+            	"password":"password"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_4887d17d8bb9408685d5b23bcadaa0a6
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/users/logout"
+        name: Deslogar Usuário
+        meta:
+          id: req_3a42d17465624fc196ac1b16f937846c
+          created: 1749680031612
+          modified: 1749680200767
+          isPrivate: false
+          sortKey: -1747778150219
+        method: POST
+        headers:
+          - id: pair_e6d830006b8c419db8233b17d51665a4
+            name: Authorization
+            value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDk3NjYwNTIsImlkIjo3fQ.LuXttY6fc1VuMgXH34oauX-GSuD2V6iiVandlNHINl0
+            disabled: false
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -166,7 +358,7 @@ collection:
         meta:
           id: req_6db5e7f207014888bd5e640579094393
           created: 1689859200000
-          modified: 1689859200000
+          modified: 1750360138670
           isPrivate: false
           description: Cria um novo inversor no sistema
           sortKey: -1747778150384
@@ -175,10 +367,10 @@ collection:
           mimeType: application/json
           text: |-
             {
-              "serial_number": "INV123456",
+              "serial_number": "YIDHCBA0FT",
               "status": "online",
               "power": 5000.00,
-              "total_energy": 12500.75
+              "total_energy":0
             }
         headers:
           - name: Content-Type
@@ -333,6 +525,50 @@ collection:
             send: true
             store: true
           rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/strings/batch"
+        name: Inserir Lote de Strings
+        meta:
+          id: req_e25d6a51c1e242c995e02c1b401b3ce4
+          created: 1749742573904
+          modified: 1749745851685
+          isPrivate: false
+          description: Cria uma nova string fotovoltaica no sistema
+          sortKey: -1747778150389.5
+        method: POST
+        body:
+          mimeType: application/json
+          text: |
+            [
+              {
+                "timestamp": "2025-06-12T13:16:41",
+                "index": 1,
+                "string_number": 1,
+                "ppv": 2345.6,
+                "ipv": 10.1,
+                "vpv": 232.4,
+                "inverter_id": 1
+              },
+              {
+                "timestamp": "2025-06-12T13:16:41",
+                "index": 1,
+                "string_number": 2,
+                "ppv": 2391.0,
+                "ipv": 7.5,
+                "vpv": 322.7,
+                "inverter_id": 1
+              }
+            ]
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
   - name: Relação entre User Parser Inverter
     meta:
       id: fld_f71d660742fd45d4aca18844b816779c
@@ -359,12 +595,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.base_url }}/api/v1/user-parser/user/1"
+      - url: "{{ _.base_url }}/api/v1/user-parser/user/3"
         name: Listar Clientes Parser por Usuário
         meta:
           id: req_8e3cf0f032f1474892bca831baa53bc8
           created: 1689859200000
-          modified: 1747963346214
+          modified: 1749754547171
           isPrivate: false
           description: Retorna todos os clientes parser de um determinado usuário
           sortKey: -1747778150382
@@ -430,7 +666,7 @@ collection:
         meta:
           id: req_c2e7a248f19d4029b64bf394a03acc83
           created: 1689859200000
-          modified: 1748010238548
+          modified: 1749754429531
           isPrivate: false
           description: Cria um novo cliente parser no sistema
           sortKey: -1747778150377
@@ -439,12 +675,12 @@ collection:
           mimeType: application/json
           text: |-
             {
-              "user_id": 5,
-              "inverter_id":1,
-            	"parser_worker_id":23,
+              "user_id": 3,
+              "inverter_id":2,
+            	"parser_worker_id":1,
             	"parser_params":{
-            		"api_token":"a42j65608h1o5ou9oasb45fs1o2kplh3",
-            		"sn":"YIDHCBA0FT",
+            		"api_token":"ym7j9hi8m2f97p0bg70l6wu3wwk0ass1",
+            		"sn":"YIDODCC0KP",
             		"device_type":"min",
             		"stringNum":2
             	}
@@ -461,11 +697,11 @@ collection:
             store: true
           rebuildPath: true
       - url: "{{ _.base_url }}/api/v1/user-parser"
-        name: Listar Clientes Parser
+        name: Listar Todas as Relações
         meta:
           id: req_d6c5916277524378a596bf75c15d3b69
           created: 1689859200000
-          modified: 1747963464791
+          modified: 1749753173614
           isPrivate: false
           description: Retorna todos os clientes parser cadastrados
           sortKey: -1747778150378
@@ -478,18 +714,23 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.base_url }}/api/v1/user-parser/growatt"
+      - url: "{{ _.base_url }}/api/v1/auth/growatt"
         name: Dados Growatt
         meta:
           id: req_b2c95487eed84778b35936927d431d97
           created: 1747961388157
-          modified: 1747964068905
+          modified: 1749756523632
           isPrivate: false
           sortKey: -1747778150277
         method: GET
         headers:
           - name: User-Agent
             value: insomnia/11.1.0
+            id: pair_c331b5dbab404984978902bee52be29f
+          - id: pair_bc80b983311e4c8cb433f24d33d6fb43
+            name: Authorization
+            value: 0f64e10f9c29903fa6d08583a0f9711b2314351aa5cd35fe93e34a9656d70f67
+            disabled: false
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -502,7 +743,7 @@ collection:
     meta:
       id: fld_e21ee39759c149d689e7dc5fbe9bb637
       created: 1747964123997
-      modified: 1747964123997
+      modified: 1749737108313
       sortKey: -1747964123997
     children:
       - url: "{{ _.base_url }}/api/v1/parser-worker"
@@ -530,7 +771,7 @@ collection:
         meta:
           id: req_db5288168a5742eb89103a42a23849f6
           created: 1747964215252
-          modified: 1747964489330
+          modified: 1749752928564
           isPrivate: false
           sortKey: -1747964215252
         method: POST
@@ -538,8 +779,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"manufacturer":"Growatt",
-            	"api_key":"chaveteste123"
+            	"manufacturer":"Growatt"
             }
         headers:
           - name: Content-Type
@@ -642,6 +882,26 @@ collection:
             send: true
             store: true
           rebuildPath: true
+      - url: "{{ _.base_url }}/api/v1/parser-worker/api-key-refresh/1"
+        name: Atualizar Api Key Parser Worker
+        meta:
+          id: req_a37b22d94c2847d5b49f57abd3183992
+          created: 1749753939393
+          modified: 1749753972669
+          isPrivate: false
+          sortKey: -1747964260003.5
+        method: PUT
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
   - url: "{{ _.base_url }}"
     name: API Root
     meta:
@@ -659,12 +919,67 @@ collection:
         send: true
         store: true
       rebuildPath: true
+  - url: https://openapi.growatt.com/v4/new-api/queryLastData
+    name: Growatt Direct
+    meta:
+      id: req_4dcb0bc987c348599d1d0ccf57d12ccf
+      created: 1749756648117
+      modified: 1749757252891
+      isPrivate: false
+      sortKey: -1749756648117
+    method: POST
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - id: pair_c0362688a83841cf997effe40b4fe1be
+          name: deviceType
+          value: min
+          disabled: false
+        - id: pair_93976880724041b2a281b8501c2d01e2
+          name: deviceSn
+          value: YIDHCBA0FT
+          disabled: false
+    headers:
+      - name: Content-Type
+        value: application/x-www-form-urlencoded
+        id: pair_243d3df47ede40c68aba49fa5aaaaf89
+      - id: pair_655ac632be4c46569c1ee892ebb72a59
+        name: token
+        value: a42j65608h1o5ou9oasb45fs1o2kplh3
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
 cookieJar:
   name: Default Jar
   meta:
     id: jar_2180c16e0bdcde48c050f097d52942379585892e
     created: 1747778153415
-    modified: 1747778153415
+    modified: 1750425832307
+  cookies:
+    - key: SERVERID
+      value: b91729c6d809fa10b5c855916352a94d|1750425905|1750425905
+      domain: openapi.growatt.com
+      path: /
+      hostOnly: true
+      creation: 2025-06-12T19:33:08.855Z
+      lastAccessed: 2025-06-20T13:23:52.305Z
+      id: ac332c78-5d69-47c5-b064-e5a6e27b056e
+    - key: SERVERCORSID
+      value: b91729c6d809fa10b5c855916352a94d|1750425905|1750425905
+      domain: openapi.growatt.com
+      path: /
+      secure: true
+      hostOnly: true
+      creation: 2025-06-12T19:33:08.856Z
+      lastAccessed: 2025-06-20T13:23:52.307Z
+      sameSite: none
+      id: 6cde2b8c-c5f3-4b01-a944-c8f7303fa51d
 environments:
   name: Base Environment
   meta:
