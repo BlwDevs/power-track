@@ -212,3 +212,60 @@ func (h *UserHandler) Logout(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Logout successful"})
 }
+
+// GetMe retorna os dados do usuário autenticado
+func (h *UserHandler) GetMe(c *gin.Context) {
+	userId, exists := c.Get("userID")
+	if !exists || userId == nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Usuário não autenticado"})
+		return
+	}
+	userID, ok := userId.(uint)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "ID de usuário inválido"})
+		return
+	}
+
+	user, err := h.userService.GetUserByID(userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao recuperar dados do usuário"})
+		println("Erro ao carregar dados do usuário:", err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, user)
+}
+
+// UpdateMe atualiza os dados do usuário autenticado
+func (h *UserHandler) UpdateMe(c *gin.Context) {
+	userId, exists := c.Get("userID")
+	if !exists || userId == nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Usuário não autenticado"})
+		return
+	}
+	userID, ok := userId.(uint)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "ID de usuário inválido"})
+		return
+	}
+
+	var userUpdates models.User
+	if err := c.ShouldBindJSON(&userUpdates); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"erro": "Dados inválidos para atualizar usuário: " + err.Error(),
+		})
+		return
+	}
+
+	userUpdates.ID = userID
+	err := h.userService.UpdateUser(&userUpdates)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"erro": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"mensagem": "Usuário atualizado com sucesso",
+	})
+}
