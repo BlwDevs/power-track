@@ -56,8 +56,35 @@ func (r *InverterRepository) GetBySerialNumber(serialNumber string) (*models.Inv
 }
 
 // GetByStatus retorna todos os inversores com um determinado status
-func (r *InverterRepository) GetByStatus(status models.Status) ([]models.Inverter, error) {
+func (r *InverterRepository) GetByStatus(status string) ([]models.Inverter, error) {
 	var inverters []models.Inverter
 	result := r.db.Where("status = ?", status).Find(&inverters)
 	return inverters, result.Error
+}
+
+// GetByUserID busca todos os inversores associados a um usuário específico
+func (r *InverterRepository) GetByUserID(userID uint) ([]models.Inverter, error) {
+	var userParsers []models.UserParserInverter
+	// Passo 1: Buscar todos os UserParserInverter do usuário
+	if err := r.db.Where("user_id = ?", userID).Find(&userParsers).Error; err != nil {
+		return nil, err
+	}
+
+	// Passo 2: Extrair os inverter_ids
+	var inverterIDs []uint
+	for _, up := range userParsers {
+		inverterIDs = append(inverterIDs, up.InverterID)
+	}
+
+	if len(inverterIDs) == 0 {
+		return []models.Inverter{}, nil // Nenhum inversor associado
+	}
+
+	// Passo 3: Buscar os inversores pelos IDs
+	var inverters []models.Inverter
+	if err := r.db.Where("id IN ?", inverterIDs).Find(&inverters).Error; err != nil {
+		return nil, err
+	}
+
+	return inverters, nil
 }

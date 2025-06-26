@@ -83,3 +83,21 @@ func (s *InverterService) DeleteInverter(id uint) error {
 
 	return s.repo.Delete(id)
 }
+
+// GetInverterByUserID retorna os inversores associados a um usuário específico
+func (s *InverterService) GetInvertersByUserID(userID uint) ([]models.Inverter, error) {
+	if userID == 0 {
+		return nil, errors.New("ID do usuário é obrigatório")
+	}
+
+	inverters, err := s.repo.GetByUserID(userID)
+	if err != nil {
+		return nil, errors.New("erro ao buscar inversores para o usuário")
+	}
+
+	if len(inverters) == 0 {
+		return nil, errors.New("nenhum inversor encontrado para este usuário")
+	}
+
+	return inverters, nil
+}
