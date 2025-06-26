@@ -64,3 +64,16 @@ func (r *ParserWorkerRepository) ValidateAPIKey(apiKey string) bool {
 	result := r.db.Where("api_key = ?", apiKey).First(&parserWorker)
 	return result.Error == nil && parserWorker.ID != 0
 }
+
+// GetByApiKey busca um programa de processamento de dados pelo API Key
+func (r *ParserWorkerRepository) GetByApiKey(apiKey string) (*models.ParserWorker, error) {
+	var parserWorker models.ParserWorker
+	result := r.db.Where("api_key = ?", apiKey).First(&parserWorker)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	if parserWorker.ID == 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+	return &parserWorker, nil
+}

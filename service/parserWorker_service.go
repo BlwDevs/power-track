@@ -93,3 +93,11 @@ func (s *ParserWorkerService) RefreshAPIKey(id uint) (string, error) {
 	}
 	return newApiKey, nil
 }
+
+// GetByApiKey busca um programa de processamento de dados pelo API Key
+func (s *ParserWorkerService) GetByApiKey(apiKey string) (*models.ParserWorker, error) {
+	if apiKey == "" {
+		return nil, nil // Retorna nil se a chave API estiver vazia
+	}
+	return s.parserWorkerRepo.GetByApiKey(apiKey)
+}
