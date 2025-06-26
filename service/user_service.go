@@ -23,6 +23,26 @@ func NewUserService(repo *repository.UserRepository) *UserService {
 
 // CreateUser cria um novo usuário
 func (s *UserService) CreateUser(user *models.User) (*models.User, error) {
+
+	users, err := s.userRepo.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	if len(users) == 0 {
+		user.Role = "admin" // Define o papel do primeiro usuário como "admin"
+	} else {
+		user.Role = "common" // Define o papel padrão como "common"
+	}
+
+	//cria hash da senha
+	if user.Password != "" {
+		hashedPassword, err := user.HashPassword(user.Password)
+		if err != nil {
+			return nil, err
+		}
+		user.Password = hashedPassword
+	}
+
 	return s.userRepo.Create(user)
 }
 
